@@ -18,8 +18,13 @@ module add_64bit(a, b, out, cf_add);
     		add_1bit g1(a[i], b[i], carry[i], out[i], carry[i+1]);
   	end
   	endgenerate
+	
+	xor g2(cf_add[2], carry[64], carry[63]);
 
-	if (out == 64'd0)) begin
+
+always @(*) begin
+	
+	if (out == 64'd0) begin
 		cf_add[0] = 1'b1;
 		
 	end
@@ -28,8 +33,7 @@ module add_64bit(a, b, out, cf_add);
 	if(out[63]==1'b1) begin
 		cf_add[1] = 1'b1;
 	end
-	else cf_add[1] = 1'b0;
-
-	xor g2(cf_add[2], carry[64], carry[63]);
+	else cf_add[1] = 1'b0;	
+end
 
 endmodule
