@@ -16,7 +16,7 @@ output reg [3:0] ifun;
 output reg [3:0] rA;
 output reg [3:0] rB;
 
-output reg ivalid; // instruction valid
+output reg ivalid; // instruction validity
 output reg ierror; // instruction error
 
 output reg [63:0] valC;
