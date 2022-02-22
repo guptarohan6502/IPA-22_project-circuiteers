@@ -2,7 +2,7 @@
 
 module fetch_tb; 
 
-reg lk; 
+reg clk; 
 reg [63:0] pc; 
 
 wire [3:0] icode; 
@@ -14,17 +14,49 @@ wire [3:0] rB;
 wire [63:0] valP;
 wire [63:0] valC;
 
-fetch dut(.clk(clk), .pc(pc), 
+fetch fetch(.clk(clk), .pc(pc), 
           .icode(icode), .ifun(ifun), 
           .rA(rA), .rB(rB),
           .valP(valP),
           .valC(valC) );
 
 initial begin
+    $dumpfile("fetch_test.vcd");
+    $dumpvars(0, fetch_test);
+
     clk = 0; 
     pc = 64'd0;
 
-    
+    #10 clk = ~clk; pc=64'd32;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+    #10 clk = ~clk; pc=valP;
+    #10 clk = ~clk; 
+  end  
+  
+initial 
+		$monitor("clk=%d, pc=%d, icode=%b, ifun=%b, rA=%b, rB=%b, valC=%d, valP=%d\n", clk, pc, icode, ifun, rA, rB, valC, valP);
 
 end
 
