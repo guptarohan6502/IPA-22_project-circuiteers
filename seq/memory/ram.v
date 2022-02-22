@@ -1,4 +1,4 @@
-
+`timescale 1ns / 1ps
 
 module RAM(memaddr,memdata,read,write,valM,dmemerror);
 

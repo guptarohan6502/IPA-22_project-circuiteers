@@ -21,10 +21,31 @@ fetch dut(.clk(clk), .pc(pc),
           .valC(valC) );
 
 initial begin
+    $dumpfile("fetch_test.vcd");
+    $dumpvars(0, fetch_test);
+
     clk = 0; 
     pc = 64'd0;
 
+    #10 clk=~clk; pc=64'd32;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
+    #10 clk=~clk; pc=valP;
     
+  end 
+  always #10 clk = ~clk;
+  
+  initial 
+		$monitor("clk=%d, pc=%d, icode=%b, ifun=%b, rA=%b, rB=%b,valC=%d,valP=%d\n",clk,pc,icode,ifun,rA,rB,valC,valP);
 
 end
 
