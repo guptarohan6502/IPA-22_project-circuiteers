@@ -12,13 +12,13 @@ reg [63:0] memory[8191:0];
 output reg[63:0] valM;
 output reg dmemerror;
 
-dmemerror <= 1'b0;
 
 always @(write,read,memdata,memaddr) begin
 
 	if(read && !write) begin
 		valM <= memory[memaddr];
 	end
+
 	if(write && !read) begin
 		memory[memaddr] <= valM;
 	end
