@@ -5,8 +5,8 @@ memory done
 Write back left
 
 Testbench of everyone is left
+1. posegde and negedge problem in decode writeback
 
 
 Doubts:
-1. Implemetation of clock
 2. Why write back stage depends on clock
