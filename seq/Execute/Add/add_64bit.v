@@ -5,7 +5,7 @@ module add_64bit(a, b, out, cf_add);
 	input signed [63:0]a ;
 	input signed [63:0]b ;
 	output signed [63:0]out ;
-	output [2:0] cf_add;
+	output reg [2:0] cf_add;
 
 	wire [64:0]carry;
 
@@ -19,7 +19,7 @@ module add_64bit(a, b, out, cf_add);
   	end
   	endgenerate
 	
-	xor g2(cf_add[2], carry[64], carry[63]);
+	xor_1bit g2(cf_add[2], carry[64], carry[63]);
 
 
 always @(*) begin

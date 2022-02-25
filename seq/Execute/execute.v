@@ -40,22 +40,22 @@ wire [2:0] cf_xor;
 
 	always@(*)
 	begin
-		case(control)
+		case(alufun)
 			2'b00:begin
-				out = out1;
+				valE = out1;
 				cf = cf_add;
 			end
 			2'b01:begin
-				out = out2;
+				valE = out2;
 				cf = cf_sub;
 				
 			end
 			2'b10:begin
-				out = out3;
+				valE = out3;
 				cf = cf_and;
 			end
 			2'b11:begin
-				out = out4;
+				valE = out4;
 				cf = cf_xor;
 			end
 			
@@ -99,9 +99,9 @@ module ALU_B(icode,valB,aluB);
 input[3:0] icode;
 input[63:0] valB;
 
-output[63:0] aluB;
+output reg[63:0] aluB;
 
-always @(icode,valC,valA) begin
+always @(icode,valB) begin
 	
 	case (icode)
 	4'h4,4'h5,4'h6, 4'h8,4'h9, 4'hA, 4'hB: 
@@ -113,6 +113,7 @@ end
 
  
 endmodule
+
 
 module ALU_fun(icode,ifun,alufun);
 
@@ -148,6 +149,7 @@ if( icode == 4'h6)
 end
 
 endmodule
+
 
 module CND(ifun,outf,cnd);
     

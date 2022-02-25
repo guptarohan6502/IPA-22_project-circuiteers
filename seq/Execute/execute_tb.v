@@ -28,7 +28,7 @@ module execute_test;
     
     initial begin
         $dumpfile("execute_test.vcd");
-        $dumpvars(0,execute_tb);
+        $dumpvars(0,execute_test);
         
         // OpXX rA rB
         icode <= 4'h6;

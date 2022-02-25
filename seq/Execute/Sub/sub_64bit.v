@@ -1,12 +1,12 @@
 `timescale 1ns / 1ps
 
 
-module sub_64bit (a, b, out, cf);
+module sub_64bit (a, b, out, cf_sub);
 
 input signed [63:0]a;
 input signed [63:0]b;
 output signed [63:0]out;
-output reg[2:0] cf;
+output reg[2:0] cf_sub;
 
 
 wire [2:0]overflow;
