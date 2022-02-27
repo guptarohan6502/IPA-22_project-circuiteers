@@ -1,20 +1,6 @@
 
 `timescale 1ns/1ps
 
-`include "../And/and_1bit.v"
-`include "../And/and_64bit.v"
-`include "../Xor/xor_1bit.v"
-`include "../Xor/xor_64bit.v"
-`include "../Or/or_1bit.v"
-
-`include "../Add/add_1bit.v"
-`include "../Add/add_64bit.v"
-
-`include "../Sub/not_1bit.v"
-`include "../Sub/not_64bit.v"
-`include "../Sub/sub_64bit.v"
-
-
 module alu (
 
 
@@ -36,7 +22,7 @@ module alu (
 	wire signed [63:0] out3;
 	wire [2:0] cf_and;
 	wire signed [63:0] out4;
-	wire [2:0] cf_xor
+	wire [2:0] cf_xor;
 
 
 	and_64bit g1(a, b, out3,cf_and);
