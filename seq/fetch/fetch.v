@@ -43,25 +43,25 @@ always@ (posedge clk) begin
     ifun = instruct[4:7];
     valid = 1'b1; // when icode is invalid, instruction valid = 0
 
-    if (icode == 4'0000) // when halt, icode = 0
+    if(icode == 4'0000) // when halt, icode = 0
     begin 
         out = 1; // halt activated 
         valP = pc + 64'd1;
     end
 
-    else if (icode == 4'b0001) // for nop, icode = 1
+    else if(icode == 4'b0001) // for nop, icode = 1
     begin 
         valP = pc + 64'd1;
     end 
 
-    else if (icode == 4'b0010) // for cmovxx, icode = 2
+    else if(icode == 4'b0010) // for cmovxx, icode = 2
     begin 
         rA = instruct[8:11];
         rB = instruct[12:15];
         valP = pc + 64'd2;
     end
 
-    else if (icode == 4'b0011) // for irmovq, icode = 3
+    else if(icode == 4'b0011) // for irmovq, icode = 3
     begin
         rA = instruct[8:11];
         rB = instruct[12:15];
@@ -69,7 +69,7 @@ always@ (posedge clk) begin
         valP = pc + 64'd10;
     end
 
-    else if (icode == 4'b0100) // for rmmovq, icode = 4
+    else if(icode == 4'b0100) // for rmmovq, icode = 4
     begin
         rA = instruct[8:11];
         rB = instruct[12:15];
@@ -104,7 +104,7 @@ always@ (posedge clk) begin
         valP = pc + 64'd9;
     end
 
-    else if (icode == 4'b1001) // for ret, icode = 9
+    else if(icode == 4'b1001) // for ret, icode = 9
     begin
         valP = pc + 64'd1;
     end
