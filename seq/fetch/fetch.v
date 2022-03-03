@@ -1,7 +1,7 @@
 // reads instructions from intruction memory 
 // finding values of icode, ifun, rA, rB, valC using the instructions
 
-`timescale 1ns / 1ps
+` 1ns / 1ps
 
 module fetch (clk, pc, 
                 icode, ifun, rA, rB, 
