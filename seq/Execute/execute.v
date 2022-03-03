@@ -62,12 +62,7 @@ wire [2:0] cf_xor;
 		endcase
 	end
 			
-		
-	
-
 endmodule
-
-
 
 module ALU_A(icode,valC,valA,aluA);
 
@@ -214,5 +209,3 @@ module CND(ifun,outf,cnd);
     end
 
 endmodule
-
-
