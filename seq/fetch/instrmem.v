@@ -33,7 +33,7 @@ instr_mem[18] = 8'b00000000;
 instr_mem[19] = 8'b00000000;
 
 //call
-instr_mem[20] = 8'b10000000; //icode ifun
+instr_mem[20] = 8'b10000000; //icode ifun: 8 0 
 instr_mem[21] = 8'b00000000; //reg
 instr_mem[22] = 8'b00000000;
 instr_mem[23] = 8'b00000000;
@@ -43,7 +43,7 @@ instr_mem[26] = 8'b00000000;
 instr_mem[27] = 8'b00000000;
 instr_mem[28] = 8'b00000000;
 instr_mem[29] = 8'b00000000;
-instr_mem[30] = 8'b00110000; 
+instr_mem[30] = 8'b00110000;
 instr_mem[31] = 8'b11111000; 
 instr_mem[32] = 8'b00001000;
 instr_mem[33] = 8'b00000000;
