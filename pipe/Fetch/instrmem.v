@@ -1,7 +1,7 @@
-module instruction_memory(clk,pc,imem_error,Byte0,Byte19);
+module instruction_memory(clk,f_pc,imem_error,Byte0,Byte19);
 
 input clk;
-input[63:0] pc;
+input[63:0] f_pc;
 output reg imem_error;
 output reg[7:0] Byte0;
 output reg[71:0] Byte19;
@@ -85,7 +85,7 @@ instr_mem[153] = 8'b00000000; //
 
 
 
-always @(posedge(clk)) begin
+always @(f_pc)) begin
 
 	if(pc > 64'd2047) begin
 		imem_error <= 1'b1;
@@ -94,16 +94,16 @@ always @(posedge(clk)) begin
 	end
 	else begin
 		imem_error = 1'b0;
-		Byte0 = instr_mem[pc];
-		Byte19[71:64] <=instr_mem[pc+1];
-		Byte19[63:56] <=instr_mem[pc+2];
-		Byte19[55:48] <=instr_mem[pc+3];
-		Byte19[47:40] <=instr_mem[pc+4];
-		Byte19[39:32] <=instr_mem[pc+5];
-		Byte19[31:24] <=instr_mem[pc+6];
-		Byte19[23:16] <=instr_mem[pc+7];
-		Byte19[15:8] <=instr_mem[pc+8];
-		Byte19[7:0] <=instr_mem[pc+9];
+		Byte0 = instr_mem[f_pc];
+		Byte19[71:64] <=instr_mem[f_pc+1];
+		Byte19[63:56] <=instr_mem[f_pc+2];
+		Byte19[55:48] <=instr_mem[f_pc+3];
+		Byte19[47:40] <=instr_mem[f_pc+4];
+		Byte19[39:32] <=instr_mem[f_pc+5];
+		Byte19[31:24] <=instr_mem[f_pc+6];
+		Byte19[23:16] <=instr_mem[f_pc+7];
+		Byte19[15:8] <=instr_mem[f_pc+8];
+		Byte19[7:0] <=instr_mem[f_pc+9];
 		
 	end
 
