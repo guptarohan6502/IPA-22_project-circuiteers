@@ -149,7 +149,6 @@ endmodule
 
 module dstE_logic(icode,ifun,rB,cnd,dstE);
 
-
 input[3:0]icode;
 input [3:0] ifun;
 input[3:0]rB;
@@ -182,6 +181,7 @@ end
 
 endmodule
 
+
 module dstM_logic(icode,rA,dstM);
 
 
@@ -196,7 +196,7 @@ parameter rnone = 4'hF ;
 
 always @(icode,rA) begin
 	 case (icode)
-	 4'h5, 4'h6: 
+	 4'h5, 4'hB: 
 		dstM <= rA;
 		 default: dstM <= rnone;
 	 endcase

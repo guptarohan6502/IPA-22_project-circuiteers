@@ -79,9 +79,19 @@ module PC_INCREMENT(pc,need_regids,need_valC,valP);
 input[63:0] pc;
 input need_regids;
 input need_valC;
+
+reg halt;
 output [63:0] valP;
 
-    assign valP = need_valC ? (need_regids ? pc+10:pc+9):(need_regids ? pc+2:pc+1);
+
+    if(icode == 4'b000) begin
+        halt =1'b1;
+    end
+    else
+        halt =1'b0;
+
+    assign valP = halt ? pc:(need_valC ? (need_regids ? pc+10:pc+9):(need_regids ? pc+2:pc+1));
+
 
 endmodule
 

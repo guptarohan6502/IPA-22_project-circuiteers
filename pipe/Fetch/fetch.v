@@ -29,15 +29,15 @@ endmodule
 
 
 
-module PREDICT_PC(icode,valC,valP,predict_pc);
+module PREDICT_PC(f_icode,valC,valP,predict_pc);
 
-input [3:0] icode;
+input [3:0] f_icode;
 input [63:0] valC;
 input [63:0] valP;
 output reg [63:0] predict_pc;
 
 always @(*) begin
-    case (icode)
+    case (f_icode)
         4'h7,4'h8:
             predict_pc <= valC; 
         default: predict_pc<= valP 
@@ -70,25 +70,25 @@ module STAT(f_icode,instr_valid,imem_error,f_stat);
 
 endmodule
 
-module split(Byte0,icode,ifun);
+module split(Byte0,f_icode,f_ifun);
 
 input [7:0] Byte0;
-output [3:0] icode;
-output [3:0] ifun;
+output [3:0] f_icode;
+output [3:0] f_ifun;
 
-    assign icode = Byte0[0:4];
-    assign ifun = Byte0[5:7];
+    assign f_icode = Byte0[0:4];
+    assign f_ifun = Byte0[5:7];
 
 endmodule
 
 
-module Need_VALC(icode,need_valC);
-input [3:0] icode;
+module Need_VALC(f_icode,need_valC);
+input [3:0] f_icode;
 output reg need_valC;
 
-always @(icode)
+always @(f_icode)
     begin
-    case (icode)
+    case (f_icode)
         4'h3, 4'h4, 4'h5, 4'h7, 4'h8,:
             begin
                 assign need_valC = 1'b1;
@@ -104,14 +104,14 @@ always @(icode)
 endmodule
 
 
-module Need_REGIDS(icode,need_regids);
+module Need_REGIDS(f_icode,need_regids);
 
-input [3:0] icode;
+input [3:0] f_icode;
 output reg need_regids;
 
-    always @(icode)
+    always @(f_icode)
         begin
-        case (icode)
+        case (f_icode)
             4'h2, 4'h3, 4'h4, 4'h5, 4'h6, 4'hA, 4'hB,:
                 begin
                     assign need_regids = 1'b1;
@@ -128,38 +128,45 @@ output reg need_regids;
 endmodule
 
 
-module align(Byte19,rA,rB,valC);
+module align(Byte19,f_rA,f_rB,f_valC);
 
 input [71:0] Byte19;
-output [3:0] rA;
-output [3:0] rB;
-output [63:0] valC;
+output [3:0] f_rA;
+output [3:0] f_rB;
+output [63:0] f_valC;
 
-    assign rA = Byte19[71:68] ;
-    assign rB = Byte19[67:64];
-    assign valC = need_regids ? Byte19[63:0]:Byte19[71:8]
+    assign f_rA = Byte19[71:68] ;
+    assign f_rB = Byte19[67:64];
+    assign f_valC = need_regids ? Byte19[63:0]:Byte19[71:8]
 
   
 endmodule
 
-module PC_INCREMENT(f_pc,need_regids,need_valC,valP);
+module PC_INCREMENT(f_pc,need_regids,need_valC,f_valP);
 
 input[63:0] f_pc;
 input need_regids;
 input need_valC;
-output [63:0] valP;
+reg halt;
+output [63:0] f_valP;
 
-    assign valP = need_valC ? (need_regids ? f_pc+10:f_pc+9):(need_regids ? f_pc+2:f_pc+1);
+   if(icode == 4'b000) begin
+        halt =1'b1;
+    end
+    else
+        halt =1'b0;
+
+    assign f_valP = halt? pc:(need_valC ? (need_regids ? f_pc+10:f_pc+9):(need_regids ? f_pc+2:f_pc+1));
 
 endmodule
 
-module INSTR_VALID(icode,instr_valid);
-input [3:0] icode;
+module INSTR_VALID(f_icode,instr_valid);
+input [3:0] f_icode;
 output reg instr_valid;
 
-always @(icode)
+always @(f_icode)
     begin
-    case (icode)
+    case (f_icode)
         4'h0, 4'h1, 4'h2, 4'h3, 4'h4, 4'h5, 4'h6, 4'h7, 4'h8, 4'h9, 4'hA, 4'hB:
             begin
                 assign instr_valid = 1'b1;

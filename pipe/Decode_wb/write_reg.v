@@ -1,21 +1,19 @@
-module DECODE_REG(f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP
-D_stat,D_icode,D_ifun,D_rA,D_rB,D_valC,D_valP);
+module WRITE_REG(m_stat,m_icode,M_valE,m_valA,M_dstE,M_dstM
+W_stat,W_icode,W_valE,W_valM,W_dstE,W_dstM);
 
-input [2:0]f_stat;
-input [3:0]f_icode; 
-input [3:0]f_ifun; 
-input [3:0]f_rA;
-input [3:0]f_rB;
-input [63:0]f_valC;
-input [63:0]f_valP;
+input [2:0]m_stat;
+input [3:0]m_icode; 
+input [63:0]m_valA; 
+input [63:0]M_valE;
+input [3:0]M_dstE;
+input [3:0]M_dstM;
 
-output reg [2:0] D_stat;
-output reg [3:0] D_icode; 
-output reg [3:0] D_ifun;
-output reg [3:0] D_rA;
-output reg [3:0] D_rB;
-output reg [63:0] D_valC;
-output reg [63:0] D_valP;
+output reg [2:0] W_stat;
+output reg [3:0] W_icode; 
+output reg [3:0] W_dstE;
+output reg [3:0] W_dstM;
+output reg [63:0] W_valE;
+output reg [63:0] W_valM;
 
 
 endmodule
