@@ -17,10 +17,11 @@ reg [7:0] instr_mem[2047:0];
 //halt
 
 
+
 // irmovq $8 %r8
 instr_mem[112] = 8'b00110000; //icode ifun
 instr_mem[113] = 8'b11111000; //reg
-instr_mem[114] = 8'b00000100;
+instr_mem[114] = 8'b00001000;
 instr_mem[115] = 8'b00000000;
 instr_mem[116] = 8'b00000000;
 instr_mem[117] = 8'b00000000;
@@ -28,6 +29,7 @@ instr_mem[118] = 8'b00000000;
 instr_mem[119] = 8'b00000000;
 instr_mem[120] = 8'b00000000;
 instr_mem[121] = 8'b00000000;
+
 // irmovq %1 %rd
 instr_mem[122] = 8'b00110000; //icode ifun
 instr_mem[123] = 8'b11111001; //reg
@@ -80,23 +82,28 @@ instr_mem[153] = 8'b00000000; //
 
 
 
+
+
+
 always @(posedge(clk)) begin
 
 	if(pc > 64'd2047) begin
-		imem_error = 1'b1;
+		imem_error <= 1'b1;
+		Byte0 <= 8'b00000000;
+
 	end
 	else begin
 		imem_error = 1'b0;
 		Byte0 = instr_mem[pc];
-		Byte19[71:64] =instr_mem[pc+1];
-		Byte19[63:56] =instr_mem[pc+2];
-		Byte19[55:48] =instr_mem[pc+3];
-		Byte19[47:40] =instr_mem[pc+4];
-		Byte19[39:32] =instr_mem[pc+5];
-		Byte19[31:24] =instr_mem[pc+6];
-		Byte19[23:16] =instr_mem[pc+7];
-		Byte19[15:8] =instr_mem[pc+8];
-		Byte19[7:0] =instr_mem[pc+9];
+		Byte19[71:64] <=instr_mem[pc+1];
+		Byte19[63:56] <=instr_mem[pc+2];
+		Byte19[55:48] <=instr_mem[pc+3];
+		Byte19[47:40] <=instr_mem[pc+4];
+		Byte19[39:32] <=instr_mem[pc+5];
+		Byte19[31:24] <=instr_mem[pc+6];
+		Byte19[23:16] <=instr_mem[pc+7];
+		Byte19[15:8] <=instr_mem[pc+8];
+		Byte19[7:0] <=instr_mem[pc+9];
 		
 	end
 
