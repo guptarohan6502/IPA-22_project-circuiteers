@@ -10,3 +10,5 @@ Testbench of everyone is left
 
 Doubts:
 2. Why write back stage depends on clock
+1. How to implement halt instruction.
+2. what are you doing if imeme error is true
