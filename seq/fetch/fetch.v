@@ -2,7 +2,7 @@
 // finding values of icode, ifun, rA, rB, valC using the instructions
 
 
-module split(Byte0,icode,ifun);
+module split(Byte0, icode, ifun);
 
 input [7:0] Byte0;
 output [3:0] icode;
@@ -14,7 +14,7 @@ output [3:0] ifun;
 endmodule
 
 
-module Need_VALC(icode,need_valC);
+module Need_VALC(icode, need_valC);
 input [3:0] icode;
 output reg need_valC;
 
@@ -36,7 +36,7 @@ always @(icode)
 endmodule
 
 
-module Need_REGIDS(icode,need_regids);
+module Need_REGIDS(icode, need_regids);
 
 input [3:0] icode;
 output reg need_regids;
@@ -74,7 +74,7 @@ output [63:0] valC;
   
 endmodule
 
-module PC_INCREMENT(pc,need_regids,need_valC,valP);
+module PC_INCREMENT(pc, need_regids, need_valC, valP);
 
 input[63:0] pc;
 input need_regids;
@@ -95,7 +95,7 @@ output [63:0] valP;
 
 endmodule
 
-module INSTR_VALID(icode,instr_valid);
+module INSTR_VALID(icode, instr_valid);
 input [3:0] icode;
 output reg instr_valid;
 

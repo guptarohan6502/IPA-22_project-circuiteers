@@ -14,6 +14,17 @@ wire [3:0] rB;
 wire [63:0] valP;
 wire [63:0] valC;
 
+reg [7:0] instr_mem [2047:0];
+
+split sp(.ibyte(ibyte), .icode(icode), .ifun(ifun));
+align al(.ibytes(ibytes), .need_regids(need_regids), .rA(rA), .rB(rB), .valC(valC));
+PC_INCREMENT PC_i(.pc(pc), .need_regids(need_regids), .need_valC(need_valC), .valP(valP));
+need_block nrb(.icode(icode), .need_regids(need_regids), .need_valC(need_valC));
+INSTR_VALID i_valid(.icode(icode), .instr_valid(instr_valid));
+Need_REGIDS nreg(.icode(icode), .need_regids(need_regids));
+Need_VALC n_valC(.icode(icode), .need_valC(need_valC));
+
+
 fetch fetch(.clk(clk), .pc(pc), 
           .icode(icode), .ifun(ifun), 
           .rA(rA), .rB(rB),
