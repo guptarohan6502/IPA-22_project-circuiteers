@@ -16,7 +16,7 @@ wire [63:0] valC;
 
 reg [7:0] instr_mem [2047:0];
 
-split sp(.ibyte(ibyte), .icode(icode), .ifun(ifun));
+split sp(.Byte0(Byte0), .icode(icode), .ifun(ifun));
 align al(.ibytes(ibytes), .need_regids(need_regids), .rA(rA), .rB(rB), .valC(valC));
 PC_INCREMENT PC_i(.pc(pc), .need_regids(need_regids), .need_valC(need_valC), .valP(valP));
 need_block nrb(.icode(icode), .need_regids(need_regids), .need_valC(need_valC));

@@ -13,7 +13,6 @@ output [3:0] ifun;
 
 endmodule
 
-
 module Need_VALC(icode, need_valC);
 input [3:0] icode;
 output reg need_valC;
@@ -34,7 +33,6 @@ always @(icode)
     endcase
     end
 endmodule
-
 
 module Need_REGIDS(icode, need_regids);
 
