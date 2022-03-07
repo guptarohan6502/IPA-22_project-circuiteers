@@ -68,7 +68,7 @@ always @(*) begin
 	
 end
 
-always @(negedge(clk)) begin
+always @(posedge(clk)) begin
 
 	if(dstE != rnone) begin
 		register_file[dstE] <= valE;
@@ -165,15 +165,10 @@ always @(icode,ifun,rB,cnd) begin
 	case (icode) 
 
 	4'h2: begin
-                if(ifun == 4'h0)
-                    dstE <= rB;
-                else
-                    begin
-                        if(cnd==1'b1)
-                            dstE <= rB;
-                        else
-                            dstE <= rnone;
-                    end  
+		if(cnd==1'b1)
+			dstE <= rB;
+		else
+			dstE <= rnone;
 	end
 
 	4'h3, 4'h6:

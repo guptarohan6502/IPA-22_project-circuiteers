@@ -6,6 +6,8 @@ Write back left
 
 Testbench of everyone is left
 1. posegde and negedge problem in decode writeback
+2. Staus block in pipeline blk is left i will look 
+into it later
 
 
 Doubts:
@@ -13,3 +15,6 @@ Doubts:
 1. How to implement halt instruction. -stop updating pc
 
 2. what are you doing if imeme error is true
+3. what is the diffrencei n conditon al move 
+what is given in ppt abt conditional move abt taking jump
+is cmov exist in y86 how does it work
