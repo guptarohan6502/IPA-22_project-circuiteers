@@ -85,7 +85,7 @@ instr_mem[153] = 8'b00000000; //
 
 
 
-always @(posedge(clk)) begin
+always @(pc) begin
 
 	if(pc > 64'd2047) begin
 		imem_error <= 1'b1;
