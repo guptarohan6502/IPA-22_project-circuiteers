@@ -1,6 +1,7 @@
-module DECODE_REG(f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP
+module DECODE_REG(clk,f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP
 D_stat,D_icode,D_ifun,D_rA,D_rB,D_valC,D_valP);
 
+input clk;
 input [2:0]f_stat;
 input [3:0]f_icode; 
 input [3:0]f_ifun; 

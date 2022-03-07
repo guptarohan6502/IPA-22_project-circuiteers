@@ -1,8 +1,9 @@
-module EXECUTE_REG(D_stat,D_icode,D_ifun,D_valC,d_valA,
+module EXECUTE_REG(clk,D_stat,D_icode,D_ifun,D_valC,d_valA,
 d_valB,d_dstE,d_dstM,d_srcA,d_srcB,
 E_stat,E_icode,E_ifun,E_valC,E_valA,E_valB,E_dstE,E_dstM
 E_srcA,E_srcB);
 
+input clk
 input [2:0]D_stat;
 input [3:0]D_icode; 
 input [3:0]D_ifun; 
