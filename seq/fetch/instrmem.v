@@ -44,7 +44,7 @@ instr_mem[27] = 8'b00000000;
 instr_mem[28] = 8'b00000000;
 
 //halt
-instr_mem[111] = 8'b00000000; // 00
+instr_mem[29] = 8'b00000000; // 00
 
 
 // irmovq $8 %r8
