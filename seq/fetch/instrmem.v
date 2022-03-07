@@ -23,7 +23,7 @@ instr_mem[9] = 8'b00000000;
 //irmovq %10 %rdi
 instr_mem[10] = 8'b00110000; //icode ifun 3 0
 instr_mem[11] = 8'b11110111; //reg F 7
-instr_mem[12] = 8'b00001010; // 10 : 0 A
+instr_mem[12] = 8'b00001010; // 10 (immediate value) : 0 A
 instr_mem[13] = 8'b00000000;
 instr_mem[14] = 8'b00000000;
 instr_mem[15] = 8'b00000000;

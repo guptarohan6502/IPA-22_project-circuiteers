@@ -8,8 +8,8 @@ input [7:0] Byte0;
 output [3:0] icode;
 output [3:0] ifun;
 
-    assign icode = Byte0[0:4];
-    assign ifun = Byte0[5:7];
+assign icode = Byte0[0:4];
+assign ifun = Byte0[5:7];
 
 endmodule
 
@@ -58,7 +58,7 @@ output reg need_regids;
 endmodule
 
 
-module align(Byte19,rA,rB,valC);
+module align(Byte19, rA, rB, valC);
 
 input [71:0] Byte19;
 output [3:0] rA;

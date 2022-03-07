@@ -14,14 +14,14 @@
 `include "Sub/sub_64bit.v"
 
 
-module alu_block(aluA,aluB, alufun,valE,cf);
+module alu_block(aluA, aluB, alufun, valE, cf);
 
 input[63:0] aluA;
 input[63:0] aluB;
 input[1:0] alufun;
 
 output reg[63:0] valE;
-output reg[2:0]cf;
+output reg[2:0] cf;
 
 wire signed [63:0] out1;
 wire [2:0] cf_add;
@@ -32,8 +32,8 @@ wire [2:0] cf_and;
 wire signed [63:0] out4;
 wire [2:0] cf_xor;
 
-	and_64bit g1(aluA, aluB, out3,cf_and);
-	xor_64bit g2(aluA, aluB, out4,cf_xor);
+	and_64bit g1(aluA, aluB, out3, cf_and);
+	xor_64bit g2(aluA, aluB, out4, cf_xor);
 	add_64bit g3(aluA, aluB, out1, cf_add);
 	sub_64bit g4(aluA, aluB, out2, cf_sub);
 
@@ -64,7 +64,7 @@ wire [2:0] cf_xor;
 			
 endmodule
 
-module ALU_A(icode,valC,valA,aluA);
+module ALU_A(icode, valC, valA, aluA);
 
 input[3:0] icode;
 input[63:0] valC;
@@ -72,7 +72,7 @@ input[63:0] valA;
 
 output reg[63:0] aluA;
 
-always @(icode,valC,valA) begin
+always @(icode, valC, valA) begin
 	
 	case (icode)
 	4'h2,4'h6: 
@@ -89,14 +89,14 @@ end
 endmodule
 
 
-module ALU_B(icode,valB,aluB);
+module ALU_B(icode, valB, aluB);
 
 input[3:0] icode;
 input[63:0] valB;
 
 output reg[63:0] aluB;
 
-always @(icode,valB) begin
+always @(icode, valB) begin
 	
 	case (icode)
 	4'h4,4'h5,4'h6, 4'h8,4'h9, 4'hA, 4'hB: 
@@ -110,7 +110,7 @@ end
 endmodule
 
 
-module ALU_fun(icode,ifun,alufun);
+module ALU_fun(icode, ifun, alufun);
 
 input[3:0] icode;
 input[3:0] ifun;
@@ -131,7 +131,7 @@ end
 endmodule
 
 
-module set_CC(icode,cf,outf);
+module set_CC(icode, cf, outf);
 
 input [3:0] icode;
 input [2:0]cf;
@@ -146,7 +146,7 @@ end
 endmodule
 
 
-module CND(ifun,outf,cnd);
+module CND(ifun, outf, cnd);
     
     input[3:0] ifun;
     input[2:0] outf;
