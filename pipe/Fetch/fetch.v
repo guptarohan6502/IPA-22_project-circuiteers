@@ -1,6 +1,74 @@
 // reads instructions from intruction memory 
 // finding values of icode, ifun, rA, rB, valC using the instructions
 
+module SELECT_PC(F_pred_PC,M_icode,M_cnd,M_valA,W_icode,W_valM,f_pc);
+
+input [63:0] F_pred_PC;
+input [3:0] M_icode;
+/////////////////////////////look at this line////////'
+input M_cnd;
+
+input [63:0] M_valA;
+input [3:0] W_icode;
+input [3:0] W_valM;
+
+output reg [63:0] f_pc;
+
+always @(*) begin
+    if(M_icode == 4'h7 && !M_Cnd) 
+        f_pc <= M_valA;
+    else if( W_icode == 4'h9 )
+        f_pc <= W_valM;
+    else
+        f_pc <= F_pred_PC;
+end
+
+
+endmodule
+
+
+
+
+module PREDICT_PC(icode,valC,valP,predict_pc);
+
+input [3:0] icode;
+input [63:0] valC;
+input [63:0] valP;
+output reg [63:0] predict_pc;
+
+always @(*) begin
+    case (icode)
+        4'h7,4'h8:
+            predict_pc <= valC; 
+        default: predict_pc<= valP 
+    endcase
+
+end
+
+endmodule
+module STAT(f_icode,instr_valid,imem_error,f_stat);
+    input [3:0] f_icode;
+    input imem_error;
+    input instr_valid;
+    output reg[2:0] f_stat;
+
+    parameter SAOK = 3'h1;
+    parameter SHLT = 3'h2;
+    parameter SADR = 3'h3;
+    parameter SINS = 3'h4;
+
+    always @(*)
+    begin
+        if(imem_error) 
+            f_stat <= SADR;
+        else if (!instr_valid)
+            f_stat <= SINS;
+        else if (f_icode == 4'h0)
+            f_stat <= SHLT;
+        else f_stat <= SAOK;
+    end
+
+endmodule
 
 module split(Byte0,icode,ifun);
 
@@ -74,14 +142,14 @@ output [63:0] valC;
   
 endmodule
 
-module PC_INCREMENT(pc,need_regids,need_valC,valP);
+module PC_INCREMENT(f_pc,need_regids,need_valC,valP);
 
-input[63:0] pc;
+input[63:0] f_pc;
 input need_regids;
 input need_valC;
 output [63:0] valP;
 
-    assign valP = need_valC ? (need_regids ? pc+10:pc+9):(need_regids ? pc+2:pc+1);
+    assign valP = need_valC ? (need_regids ? f_pc+10:f_pc+9):(need_regids ? f_pc+2:f_pc+1);
 
 endmodule
 

@@ -42,21 +42,21 @@ wire [2:0] cf_xor;
 	begin
 		case(alufun)
 			2'b00:begin
-				valE = out1;
-				cf = cf_add;
+				valE <= out1;
+				cf <= cf_add;
 			end
 			2'b01:begin
-				valE = out2;
-				cf = cf_sub;
+				valE <= out2;
+				cf <= cf_sub;
 				
 			end
 			2'b10:begin
-				valE = out3;
-				cf = cf_and;
+				valE <= out3;
+				cf <= cf_and;
 			end
 			2'b11:begin
-				valE = out4;
-				cf = cf_xor;
+				valE <= out4;
+				cf <= cf_xor;
 			end
 			
 		endcase

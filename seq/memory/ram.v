@@ -114,4 +114,28 @@ always @(icode) begin
 end
 endmodule
 
-//module STAT(instr_valid, icode, dmemerror, )
+module STAT(icode,instr_valid,imem_error,dmemerror,stat);
+    input [3:0] icode;
+    input imem_error;
+    input instr_valid;
+    input dmemerror;
+    output reg[2:0] stat;
+
+    parameter SAOK = 3'h1;
+    parameter SHLT = 3'h2;
+    parameter SADR = 3'h3;
+    parameter SINS = 3'h4;
+
+    always @(*)
+    begin
+        if(imem_error || dmemerror) 
+            stat <= SADR;
+        else if (!instr_valid)
+            stat <= SINS;
+        else if (icode == 4'h0)
+            stat <= SHLT;
+        else stat <= SAOK;
+    end
+
+endmodule
+
