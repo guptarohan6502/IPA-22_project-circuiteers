@@ -52,6 +52,7 @@ module STAT(f_icode,instr_valid,imem_error,f_stat);
     input instr_valid;
     output reg[2:0] f_stat;
 
+    
     parameter SAOK = 3'h1;
     parameter SHLT = 3'h2;
     parameter SADR = 3'h3;

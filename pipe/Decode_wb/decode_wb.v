@@ -83,7 +83,27 @@ end
 
 endmodule
 
+module WRITE_STAT(W_stat,stat);
 
+input [2:0] W_stat;
+output reg[2:0] stat;
+
+parameter SBUB = 3'h0;
+parameter SAOK = 3'h1;
+parameter SHLT = 3'h2;
+parameter SADR = 3'h3;
+parameter SINS = 3'h4;
+
+always @(*) begin
+	case (W_stat)
+		SBUB:
+			stat <= SAOK; 
+		default: stat <= W_stat;
+	endcase
+	
+end
+
+endmodule
 
 module d_VALA_logic(
 	input [3:0] D_icode,
