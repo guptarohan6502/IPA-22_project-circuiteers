@@ -199,63 +199,34 @@ module Processor;
     // pipeline control 
     PIPE_CONTROL_LOGIC pipe_ctrl(.clk(clk), );
 
-    always #5 clk=~clk;
+initial
+begin
 
-  initial begin
     $dumpfile("proc.vcd");
-    $dumpvars(0, proc);
-    stat[0] = 1;
-    stat[1] = 0;
-    stat[2] = 0;
-    clk = 0;
-    pc = 64'd31;
-  end 
+    $dumpvars(0, Processor);
+    // $readmemh("rom.mem", instr_mem);
+    
+    clk = 1'b1;
+    pc = 64'd0;
 
-  always@(*)
-  begin
-    pc = predict_pc; // Updated PC?
-  end
+end
 
-  always@(*)
-  begin
-    if(hltins)
-    begin
-      stat[2]=hltins;
-      stat[1]=1'b0;
-      stat[0]=1'b0;
-    end
-    else if(instr_valid==1'b0)
-    begin
-      stat[1]=instr_valid;
-      stat[2]=1'b0;
-      stat[0]=1'b0;
-    end
-    else
-    begin
-      stat[0]=1'b1;
-      stat[1]=1'b0;
-      stat[2]=1'b0;
-    end
-  end
   
-  always@(*)
-  begin
-    if(stat[2]==1'b1)
-    begin
-      $finish;
-    end
-  end
+always @(posedge clk)
+      begin    
+        pc <= newpc;
+      end
 
-<<<<<<< HEAD
-  initial 
-    //$monitor("clk=%d 0=%d 1=%d 2=%d 3=%d 4=%d zf=%d sf=%d of=%d",clk,reg_mem0,reg_mem1,reg_mem2,reg_mem3,reg_mem4,zf,sf,of);
-    // $monitor("clk=%d halt=%d 0=%d 1=%d 2=%d 3=%d 4=%d",clk,stat[2],reg_mem0,reg_mem1,reg_mem2,reg_mem3,reg_mem4);
-		// $monitor("clk=%d icode=%b ifun=%b rA=%b rB=%b valA=%d valB=%d valC=%d valE=%d valM=%d insval=%d memerr=%d cnd=%d halt=%d 0=%d 1=%d 2=%d 3=%d 4=%d 5=%d 6=%d 7=%d 8=%d 9=%d 10=%d 11=%d 12=%d 13=%d 14=%d datamem=%d\n",clk,icode,ifun,rA,rB,valA,valB,valC,valE,valM,instr_valid,imem_error,cnd,stat[2],reg_mem0,reg_mem1,reg_mem2,reg_mem3,reg_mem4,reg_mem5,reg_mem6,reg_mem7,reg_mem8,reg_mem9,reg_mem10,reg_mem11,reg_mem12,reg_mem13,reg_mem14,datamem);
-		$monitor("clk=%d f=%d d=%d e=%d m=%d wb=%d",clk,f_icode,d_icode,e_icode,m_icode,w_icode);
-=======
+    always #10 clk <= ~clk;
+    initial
+        #300 $finish;
 
+    
+initial begin
+		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
+
+end
 
 
 
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 endmodule
