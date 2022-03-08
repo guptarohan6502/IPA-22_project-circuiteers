@@ -89,7 +89,7 @@ instr_mem[119] <= 8'b00000000;
 instr_mem[120] <= 8'b00000000;
 instr_mem[121] <= 8'b00000000;
 
-// irmovq %1 %rd
+// irmovq %1 %r9
 instr_mem[122] <= 8'b00110000; //icode ifun
 instr_mem[123] <= 8'b11111001; //reg
 instr_mem[124] <= 8'b00000001;
@@ -111,7 +111,7 @@ instr_mem[135] <= 8'b01100110; //reg
 
 // jmp test- some memory address
 instr_mem[136] <= 8'b01110000; //icode ifun
-instr_mem[137] <= 8'b10010011; //reg
+instr_mem[137] <= 8'b10010001; //reg
 instr_mem[138] <= 8'b00000000;
 instr_mem[139] <= 8'b00000000;
 instr_mem[140] <= 8'b00000000;
@@ -123,7 +123,11 @@ instr_mem[144] <= 8'b00000000;
 
 // loop:
 instr_mem[145] <= 8'b01100001; //icode ifun
-instr_mem[146] <= 8'b01100110; //reg
+instr_mem[146] <= 8'b10011000; //reg
+
+/* // loop:
+instr_mem[145] <= 8'b01100001; //icode ifun
+instr_mem[146] <= 8'b10011000; //reg */
 
 //test:
 //jne loop;
@@ -139,7 +143,6 @@ instr_mem[155] <= 8'b00000000; //
 
 //ret
 instr_mem[156] <= 8'b10010000; // 9 0 
-
 end
 
 

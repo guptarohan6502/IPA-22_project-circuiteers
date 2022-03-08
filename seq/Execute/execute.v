@@ -21,7 +21,7 @@ wire [2:0] cf_xor;
 	and_64bit g1(aluA, aluB, out3, cf_and);
 	xor_64bit g2(aluA, aluB, out4, cf_xor);
 	add_64bit g3(aluA, aluB, out1, cf_add);
-	sub_64bit g4(aluA, aluB, out2, cf_sub);
+	sub_64bit g4(aluB,aluA, out2, cf_sub);
 
 
 	always@(*)
@@ -145,7 +145,7 @@ module CND(ifun, outf, cnd);
 
         4'h1:
         begin
-            if((outf[1]^outf[0])|outf[2]) 
+            if((outf[1]^outf[2]) || outf[0]) 
             cnd <= 1'b1;
             else
             cnd <= 1'b0;
@@ -153,7 +153,7 @@ module CND(ifun, outf, cnd);
 
         4'h2:
         begin
-            if(outf[1]^outf[0]) 
+            if(outf[1]^outf[2]) 
             cnd <= 1'b1;
             else
             cnd <= 1'b0;
@@ -161,7 +161,7 @@ module CND(ifun, outf, cnd);
         
         4'h3:
         begin
-            if(outf[2]) 
+            if(outf[0]) 
             cnd <= 1'b1;
             else
             cnd <= 1'b0;
@@ -169,7 +169,7 @@ module CND(ifun, outf, cnd);
         
         4'h4:
         begin
-            if(~outf[2]) 
+            if(~outf[0]) 
             cnd <= 1'b1;
             else
             cnd <= 1'b0;
@@ -177,7 +177,7 @@ module CND(ifun, outf, cnd);
         
         4'h5:
         begin
-            if(~(outf[1]^outf[0])) 
+            if(~(outf[1]^outf[2])) 
             cnd <= 1'b1;
             else
             cnd <= 1'b0;
@@ -185,7 +185,7 @@ module CND(ifun, outf, cnd);
         
         4'h6:
         begin
-            if(~(outf[1]^outf[0]) & ~outf[2]) 
+            if(~(outf[1]^outf[2]) & ~outf[0]) 
             cnd <= 1'b1;
             else
             cnd <= 1'b0;

@@ -31,7 +31,7 @@ always @(posedge(clk)) begin
 		end
 		default: begin
 			M_stat <= E_stat;
-			M_icode <= E_stat;
+			M_icode <= E_icode;
 			M_cnd <= e_cnd;
 			M_valE <= e_valE;
 			M_valA <= E_valA;

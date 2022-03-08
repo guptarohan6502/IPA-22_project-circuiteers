@@ -1,12 +1,12 @@
 
 
-module alu_block(aluA, aluB, alufun, valE, cf);
+module alu_block(aluA, aluB, alufun, e_valE, cf);
 
 input[63:0] aluA;
 input[63:0] aluB;
 input[1:0] alufun;
 
-output reg[63:0] valE;
+output reg[63:0] e_valE;
 output reg[2:0]cf;
 
 wire signed [63:0] out1;
@@ -21,27 +21,27 @@ wire [2:0] cf_xor;
 	and_64bit g1(aluA, aluB, out3, cf_and);
 	xor_64bit g2(aluA, aluB, out4, cf_xor);
 	add_64bit g3(aluA, aluB, out1, cf_add);
-	sub_64bit g4(aluA, aluB, out2, cf_sub);
+	sub_64bit g4(aluB, aluA, out2, cf_sub);
 
 
 	always@(*)
 	begin
 		case(alufun)
 			2'b00:begin
-				valE <= out1;
+				e_valE <= out1;
 				cf <= cf_add;
 			end
 			2'b01:begin
-				valE <= out2;
+				e_valE <= out2;
 				cf <= cf_sub;
 				
 			end
 			2'b10:begin
-				valE <= out3;
+				e_valE <= out3;
 				cf <= cf_and;
 			end
 			2'b11:begin
-				valE <= out4;
+				e_valE <= out4;
 				cf <= cf_xor;
 			end
 			
@@ -183,7 +183,7 @@ module CND(E_ifun,outf,e_cnd);
 
         4'h1:
         begin
-            if((outf[1]^outf[0])|outf[2]) 
+            if((outf[1]^outf[2]) || outf[0]) 
             e_cnd <= 1'b1;
             else
             e_cnd <= 1'b0;
@@ -191,7 +191,7 @@ module CND(E_ifun,outf,e_cnd);
 
         4'h2:
         begin
-            if(outf[1]^outf[0]) 
+            if(outf[1]^outf[2]) 
             e_cnd <= 1'b1;
             else
             e_cnd <= 1'b0;
@@ -199,7 +199,7 @@ module CND(E_ifun,outf,e_cnd);
         
         4'h3:
         begin
-            if(outf[2]) 
+            if(outf[0]) 
             e_cnd <= 1'b1;
             else
             e_cnd <= 1'b0;
@@ -207,7 +207,7 @@ module CND(E_ifun,outf,e_cnd);
         
         4'h4:
         begin
-            if(~outf[2]) 
+            if(~outf[0]) 
             e_cnd <= 1'b1;
             else
             e_cnd <= 1'b0;
@@ -215,7 +215,7 @@ module CND(E_ifun,outf,e_cnd);
         
         4'h5:
         begin
-            if(~(outf[1]^outf[0])) 
+            if(~(outf[1]^outf[2])) 
             e_cnd <= 1'b1;
             else
             e_cnd <= 1'b0;
@@ -223,7 +223,7 @@ module CND(E_ifun,outf,e_cnd);
         
         4'h6:
         begin
-            if(~(outf[1]^outf[0]) & ~outf[2]) 
+            if(~(outf[1]^outf[2]) & ~outf[0]) 
             e_cnd <= 1'b1;
             else
             e_cnd <= 1'b0;
@@ -231,5 +231,6 @@ module CND(E_ifun,outf,e_cnd);
         endcase
         
     end
+   
 
 endmodule

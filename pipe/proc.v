@@ -46,7 +46,6 @@ module Processor;
     wire [63:0] aluA;
     wire [63:0] aluB;
     wire [1:0]  alufun;
-    wire [63:0] valE;
     wire [2:0]  cf;
     wire [2:0] outf;
     // wire signed [63:0] out1;
@@ -112,7 +111,6 @@ module Processor;
 
 
     wire [2:0]m_stat;
-    wire [3:0]m_icode; 
     wire [63:0]m_valA; 
     wire [63:0]M_valE;
 
@@ -181,7 +179,8 @@ module Processor;
     // execute
     EXECUTE_REG exec_reg(.clk(clk), .D_stat(D_stat), .D_icode(D_icode), .D_ifun(D_ifun), .D_valC(D_valC), .d_valA(d_valA),
         .d_valB(d_valB), .d_dstE(d_dstE), .d_dstM(d_dstM), .d_srcA(d_srcA), .d_srcB(d_srcB), .E_stat(E_stat), .E_icode(E_icode), .E_ifun(E_ifun), .E_valC(E_valC), .E_valA(E_valA), .E_valB(E_valB), .E_dstE(E_dstE), .E_dstM(E_dstM), .E_srcA(E_srcA), .E_srcB(E_srcB));
-    alu_block alulogic(.aluA(aluA), .aluB(aluB), .alufun(alufun), .cf(cf), .valE(valE));
+    alu_block alulogic(.aluA(aluA), .aluB(aluB), .alufun(alufun), .cf(cf), .e_valE(e_valE));
+    EXE_DST_E_LOGIC e_dselogic(.E_icode(E_icode),.e_cnd(e_cnd),.E_dstE(E_dstE),.e_dstE(e_dstE));
     ALU_A alualogic(.E_icode(E_icode), .E_valA(E_valA), .E_valC(E_valC), .aluA(aluA));
     ALU_B alublogic(.E_icode(E_icode), .E_valB(E_valB), .aluB(aluB));
     ALU_fun alufunlogic(.E_icode(E_icode), .E_ifun(E_ifun), .alufun(alufun));
@@ -228,20 +227,25 @@ always @(posedge clk)
 
     always #5 clk <= ~clk;
     initial
-        #300 $finish;
+        #400 $finish;
 
     
 initial begin
 	//USE below monitor to monitor fetch values.
     	//$monitor("clk=%d,F_stall = %b, F_pc=%d, predict_pc = %d,f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n", clk, F_stall,F_pred_pc,predict_pc ,f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
     // Pipeline control Monitor
-        $monitor("clk=%d,F_pc = %d,D_icode =%d,E_icode = %d,E_dstM=%b,d_srcA =%b,d_srcB = %b,m_stat=%b,W_stat = %b,M_icode=%d,e_cnd = %b,F_stall = %b, D_stall = %b,W_stall = %b,D_bubble = %b,E_bubble = %b,M_bubble = %b\n", 
-         clk,F_pred_pc,D_icode,E_icode,E_dstM
-         ,d_srcA,d_srcB,m_stat,W_stat,
-         M_icode,e_cnd,F_stall , D_stall, W_stall,
-         D_bubble,E_bubble,M_bubble);
+        //$monitor("clk=%d,F_pc = %d,D_icode =%d,E_icode = %d,d_dstM = %b,E_dstM=%b,d_srcA =%b,d_srcB = %b,m_stat=%b,W_stat = %b,M_icode=%d,e_cnd = %b,F_stall = %b, D_stall = %b,W_stall = %b,D_bubble = %b,E_bubble = %b,M_bubble = %b\n", clk,F_pred_pc,D_icode,E_icode,d_dstM,E_dstM,d_srcA,d_srcB,m_stat,W_stat,M_icode,e_cnd,F_stall , D_stall, W_stall,D_bubble,E_bubble,M_bubble);
     // Decode Stage 
-        //$monitor("clk=%d,F_pc = %d,D_icode = %d,D_ifun = %d, f_rA = %b,D_rA = %b, D_rB = %b, D_valC =%d ,D_valP = %d,d_srcA =%b,d_srcB = %b\n",clk,F_pred_pc,D_icode,D_ifun,f_rA,D_rA,D_rB,D_valC,D_valP,d_srcA,d_srcB,);
+        //$monitor("clk=%d,F_pc = %d,D_icode = %d,D_ifun = %d, f_rA = %b,D_rA = %b, D_rB = %b, D_valC =%d ,D_valP = %d,d_srcA =%b,d_srcB = %b,d_valA = %d, d_valB = %d\n",clk,F_pred_pc,D_icode,D_ifun,f_rA,D_rA,D_rB,D_valC,D_valP,d_srcA,d_srcB,d_valA,d_valB);
+    //Execute Stage
+         //$monitor("clk=%d,F_pc = %d,E_icode = %d,e_valE = %d, aluA = %d,aluB = %d, E_valC = %d,E_valA = %d, E_valB = %d,d_dstE = %b,D_rA = %b,D_rB = %b,E_dstE = %b,e_dstE = %b\n",
+           //clk,F_pred_pc,E_icode,e_valE,aluA,aluB,E_valC,E_valA,E_valB,d_dstE,D_rA,D_rB,E_dstE,e_dstE);
+    // Memory stage 
+       //$monitor("clk =%b, M_bub = %b,F_pc = %d,E_icode = %d, M_icode = %d,M_cnd= %b, m_valM = %d, M_valE =%d,M_valA =%d, M_dstE =%b,e_dstE = %b, M_dstM = %b",
+       // clk,M_bubble,F_pred_pc,E_icode,M_icode,M_cnd,m_valM,M_valE,M_valA,M_dstE,e_dstE,M_dstM);
+    //Write back stage:
+       $monitor("clk=%d,W_stall = %b,F_pc=%d, W_icode = %d,W_dstE = %b,W_dstM = %b,W_valE =%d,W_valM = %d",
+        clk,W_stall,F_pred_pc,W_icode,W_dstE,W_dstM,W_valE,W_valM);
 
 
 end

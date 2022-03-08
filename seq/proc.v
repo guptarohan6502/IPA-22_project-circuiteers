@@ -8,7 +8,6 @@
 `include "pc_update/pc_update.v"
 
 
-`include "Execute/Alu/alu.v"
 `include "Execute/And/and_1bit.v"
 `include "Execute/And/and_64bit.v"
 `include "Execute/Xor/xor_1bit.v"
@@ -105,6 +104,20 @@ MEM_data Md(.icode(icode), .valA(valA), .valP(valP), .memdata(memdata));
 // PC Update
 pc_update pc_new(.clk(clk), .cnd(cnd), .icode(icode), .valC(valC), .valM(valM), .valP(valP), .newpc(newpc));
 
+/* // sub 64 bit
+wire [63:0] suba;
+wire [63:0] subb;
+wire [63:0] subout;
+wire [2:0] subflag;
+sub_64bit check(.a(suba),.b(subb),.out(subout),.cf_sub(subflag));
+// add 64 bit
+wire [63:0] adda;
+wire [63:0] addb;
+wire [63:0] addout;
+wire [2:0] addflag;
+add_64bit chec_k(.a(adda),.b(addb),.out(addout),.cf_add(addflag)); */
+
+
 initial
 begin
 
@@ -125,11 +138,13 @@ always @(posedge clk)
 
     always #10 clk <= ~clk;
     initial
-        #300 $finish;
+        #600 $finish;
 
     
 initial begin
-		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
+  //$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, aluA = %d, aluB = %d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, aluA, aluB, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
+  //$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b",clk, pc, icode, ifun, rA, rB,);
+    $monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, aluA = %d, aluB = %d, valA=%d, valB=%d,valE=%d, outf = %b,cnd =%b\n", clk, pc, icode, ifun, rA, rB, valC, valP, aluA, aluB, valA, valB, valE,outf,cnd );
 
 end
 
