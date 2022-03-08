@@ -1,7 +1,7 @@
 // reads instructions from intruction memory 
 // finding values of icode, ifun, rA, rB, valC using the instructions
 
-module SELECT_PC(F_pred_PC,M_icode,M_cnd,M_valA,W_icode,W_valM,f_pc);
+module SELECT_PC(F_pred_PC, M_icode, M_cnd, M_valA, W_icode, W_valM,f_pc);
 
 input [63:0] F_pred_PC;
 input [3:0] M_icode;
@@ -29,7 +29,7 @@ endmodule
 
 
 
-module PREDICT_PC(f_icode,valC,valP,predict_pc);
+module PREDICT_PC(f_icode, valC, valP, predict_pc);
 
 input [3:0] f_icode;
 input [63:0] valC;
@@ -83,7 +83,7 @@ output [3:0] f_ifun;
 endmodule
 
 
-module Need_VALC(f_icode,need_valC);
+module Need_VALC(f_icode, need_valC);
 input [3:0] f_icode;
 output reg need_valC;
 
@@ -105,7 +105,7 @@ always @(f_icode)
 endmodule
 
 
-module Need_REGIDS(f_icode,need_regids);
+module Need_REGIDS(f_icode, need_regids);
 
 input [3:0] f_icode;
 output reg need_regids;
@@ -129,7 +129,7 @@ output reg need_regids;
 endmodule
 
 
-module align(Byte19,need_regids,f_rA,f_rB,f_valC);
+module align(Byte19, need_regids, f_rA, f_rB, f_valC);
 
 input [71:0] Byte19;
 input need_regids;
@@ -144,7 +144,7 @@ output [63:0] f_valC;
   
 endmodule
 
-module PC_INCREMENT(f_pc,f_icode,need_regids,need_valC,f_valP);
+module PC_INCREMENT(f_pc, f_icode, need_regids, need_valC, f_valP);
 
 input[63:0] f_pc;
 input [3:0] f_icode;
@@ -163,7 +163,7 @@ output [63:0] f_valP;
 
 endmodule
 
-module INSTR_VALID(f_icode,instr_valid);
+module INSTR_VALID(f_icode, instr_valid);
 input [3:0] f_icode;
 output reg instr_valid;
 

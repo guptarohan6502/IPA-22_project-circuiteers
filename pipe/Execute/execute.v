@@ -14,7 +14,7 @@
 `include "Sub/sub_64bit.v"
 
 
-module alu_block(aluA,aluB, alufun,valE,cf);
+module alu_block(aluA, aluB, alufun, valE, cf);
 
 input[63:0] aluA;
 input[63:0] aluB;
@@ -32,8 +32,8 @@ wire [2:0] cf_and;
 wire signed [63:0] out4;
 wire [2:0] cf_xor;
 
-	and_64bit g1(aluA, aluB, out3,cf_and);
-	xor_64bit g2(aluA, aluB, out4,cf_xor);
+	and_64bit g1(aluA, aluB, out3, cf_and);
+	xor_64bit g2(aluA, aluB, out4, cf_xor);
 	add_64bit g3(aluA, aluB, out1, cf_add);
 	sub_64bit g4(aluA, aluB, out2, cf_sub);
 
@@ -64,6 +64,10 @@ wire [2:0] cf_xor;
 			
 endmodule
 
+<<<<<<< HEAD
+module ALU_A(icode, valC, valA, aluA);
+=======
+>>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 module EXE_DST_E_LOGIC (E_icode,e_cnd,e_dstE);
 
@@ -110,7 +114,11 @@ end
 endmodule
 
 
+<<<<<<< HEAD
+module ALU_B(icode, valB, aluB);
+=======
 module ALU_B(E_icode,E_valB,aluB);
+>>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input[3:0] E_icode;
 input[63:0] E_valB;
@@ -131,7 +139,11 @@ end
 endmodule
 
 
+<<<<<<< HEAD
+module ALU_fun(icode, ifun, alufun);
+=======
 module ALU_fun(E_icode,E_ifun,alufun);
+>>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input[3:0] E_icode;
 input[3:0] E_ifun;
@@ -152,7 +164,11 @@ end
 endmodule
 
 
+<<<<<<< HEAD
+module set_CC(icode, cf, outf);
+=======
 module set_CC(E_icode,cf,m_stat,W_stat,outf);
+>>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input [3:0] icode;
 input [2:0]cf;
