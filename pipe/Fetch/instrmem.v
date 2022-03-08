@@ -7,6 +7,8 @@ output reg[7:0] Byte0;
 output reg[71:0] Byte19;
 
 reg [7:0] instr_mem[2047:0];
+initial begin
+	
 
 //irmovq %16 %r12
 
@@ -79,7 +81,7 @@ instr_mem[153] = 8'b00000000; //
 
 //ret
 
-
+end
 
 
 

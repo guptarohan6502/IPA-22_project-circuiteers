@@ -90,7 +90,7 @@ output reg need_valC;
 always @(f_icode)
     begin
     case (f_icode)
-        4'h3, 4'h4, 4'h5, 4'h7, 4'h8,:
+        4'h3, 4'h4, 4'h5, 4'h7, 4'h8:
             begin
                 assign need_valC = 1'b1;
             end
@@ -113,7 +113,7 @@ output reg need_regids;
     always @(f_icode)
         begin
         case (f_icode)
-            4'h2, 4'h3, 4'h4, 4'h5, 4'h6, 4'hA, 4'hB,:
+            4'h2, 4'h3, 4'h4, 4'h5, 4'h6, 4'hA, 4'hB:
                 begin
                     assign need_regids = 1'b1;
                 end
@@ -129,23 +129,25 @@ output reg need_regids;
 endmodule
 
 
-module align(Byte19,f_rA,f_rB,f_valC);
+module align(Byte19,need_regids,f_rA,f_rB,f_valC);
 
 input [71:0] Byte19;
+input need_regids;
 output [3:0] f_rA;
 output [3:0] f_rB;
 output [63:0] f_valC;
 
-    assign f_rA = Byte19[71:68] ;
-    assign f_rB = Byte19[67:64];
-    assign f_valC = need_regids ? Byte19[63:0]:Byte19[71:8]
+    assign f_rA = Byte19[7:4] ;
+    assign f_rB = Byte19[3:0];
+    assign f_valC = need_regids ? Byte19[71:8]Byte19[63:0];
 
   
 endmodule
 
-module PC_INCREMENT(f_pc,need_regids,need_valC,f_valP);
+module PC_INCREMENT(f_pc,f_icode,need_regids,need_valC,f_valP);
 
 input[63:0] f_pc;
+input [3:0] f_icode;
 input need_regids;
 input need_valC;
 reg halt;
