@@ -1,11 +1,27 @@
-'timescale 1ns / 1ps
+`timescale 1ns / 1ps
 
-`include "../fetch/fetch.v"
-`include "../fetch/instrmem.v"
-`include "../decode/decode.v"
-`include "../Execute/execute.v"
-`include "../memory/ram.v"
-`include "../pc_update/pc_update.v"
+`include "fetch/fetch.v"
+`include "fetch/instrmem.v"
+`include "decode/decode.v"
+`include "Execute/execute.v"
+`include "memory/ram.v"
+`include "pc_update/pc_update.v"
+
+
+`include "Execute/Alu/alu.v"
+`include "Execute/And/and_1bit.v"
+`include "Execute/And/and_64bit.v"
+`include "Execute/Xor/xor_1bit.v"
+`include "Execute/Xor/xor_64bit.v"
+`include "Execute/Or/or_1bit.v"
+
+`include "Execute/Add/add_1bit.v"
+`include "Execute/Add/add_64bit.v"
+
+`include "Execute/Sub/not_1bit.v"
+`include "Execute/Sub/not_64bit.v"
+`include "Execute/Sub/sub_64bit.v"
+
 
 module proc;
 
@@ -34,22 +50,13 @@ wire [3:0] srcA;
 wire [3:0] srcB;
 wire [63:0] valE;
 wire [63:0] valM;
-wire [63:0] register_file[14:0];
-
+wire [63:0] valA;
+wire [63:0] valB;
 // execute
 wire [63:0] aluA;
 wire [63:0] aluB;
 wire [1:0] alufun;
-wire [63:0] valE;
 wire [2:0] cf;
-wire signed [63:0] out1;
-wire [2:0] cf_add;
-wire signed [63:0] out2;
-wire [2:0] cf_sub;
-wire signed [63:0] out3;
-wire [2:0] cf_and;
-wire signed [63:0] out4;
-wire [2:0] cf_xor;
 wire [2:0] outf;
 wire cnd;
 
@@ -58,23 +65,25 @@ wire [63:0] memaddr;
 wire [63:0] memdata;
 wire read;
 wire write;
-wire [63:0] memory[8191:0];
-wire [63:0] valM;
 wire dmemerror;
 reg [2:0] stat;
 
-// clock signal
-reg clk = 1'b1;
-integer k = 0;
+// pc update
+wire [63:0] newpc;
+
 
 // fetch
 split sp(.Byte0(Byte0), .icode(icode), .ifun(ifun));
 align al(.Byte19(Byte19), .need_regids(need_regids), .rA(rA), .rB(rB), .valC(valC));
-PC_INCREMENT PC_i(.pc(pc), .need_regids(need_regids), .need_valC(need_valC), .valP(valP));
+PC_INCREMENT PC_i(.pc(pc), .icode(icode), .need_regids(need_regids), .need_valC(need_valC), .valP(valP));
 INSTR_VALID i_valid(.icode(icode), .instr_valid(instr_valid));
 Need_REGIDS nreg(.icode(icode), .need_regids(need_regids));
 Need_VALC n_valC(.icode(icode), .need_valC(need_valC));
+<<<<<<< Updated upstream
 instruction_memory InstMem(.clk(clk), .pc(pc), .imem_error(imem_error), .Byte0(Byte0), .Byte19(Byte19));
+=======
+instruction_memory InstMem(.clk(clk),.pc(pc),.imem_error(imem_error),.Byte0(Byte0),.Byte19(Byte19));
+>>>>>>> Stashed changes
 
 // decode 
 registerfile reg_f(.clk(clk), .dstE(dstE), .dstM(dstM), .srcA(srcA) , .srcB(srcB) , .valA(valA) , .valB(valB) , .valM(valM), .valE(valE));
@@ -99,42 +108,34 @@ MEM_write Mw(.icode(icode), .write(write));
 MEM_data Md(.icode(icode), .valA(valA), .valP(valP), .memdata(memdata));    
 
 // PC Update
-pc_update pc_new(.clk(clk), .cnd(cnd), .pc(pc), .icode(icode), .valC(valC), .valM(valM), .valP(valP), .newpc(newpc));
+pc_update pc_new(.clk(clk), .cnd(cnd), .icode(icode), .valC(valC), .valM(valM), .valP(valP), .newpc(newpc));
 
 initial
 begin
 
     $dumpfile("proc.vcd");
     $dumpvars(0, proc);
-    // $readmemh("rom.mem", instr_mem); // this is defined already //
+    // $readmemh("rom.mem", instr_mem);
+    
+    clk = 1'b1;
+    pc = 64'd0;
 
 end
 
+  
 always @(posedge clk)
       begin    
-        pc <= newpC;
-        
-
+        pc <= newpc;
       end
 
-    always @(pc)
-    begin
-      Byte19<= instr_mem[pc];
-      Byte19[71:64] <= instr_mem[pc+1];
-      Byte19[63:56] <= instr_mem[pc+2];
-      Byte19[55:48] <= instr_mem[pc+3];
-      Byte19[47:40] <= instr_mem[pc+4];
-      Byte19[39:32] <= instr_mem[pc+5];
-      Byte19[31:24] <= instr_mem[pc+6];
-      Byte19[23:16] <= instr_mem[pc+7];
-      Byte19[15:8] <= instr_mem[pc+8];
-      Byte19[7:0] <= instr_mem[pc+9];
-      if( icode == 4'h0)
+    always #10 clk <= ~clk;
+    initial
+        #300 $finish;
 
-        $finish;
+    
+initial begin
+		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,newpc);
 
-    end
-
-    always #10 clk = ~clk;
+end
 
 endmodule

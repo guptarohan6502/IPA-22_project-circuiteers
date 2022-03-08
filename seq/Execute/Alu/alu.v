@@ -7,13 +7,12 @@ module alu (
 	input[1:0]control,
 	input signed [63:0]a,
 	input signed [63:0]b,
-	output signed[63:0]out,
-	output [2:0] cf
+	output reg signed[63:0]out,
+	output reg [2:0] cf
 );
 
 
-	reg signed[63:0]out;
-	reg [2:0] cf;
+
 
 	wire signed [63:0] out1;
 	wire [2:0] cf_add;
@@ -35,21 +34,21 @@ module alu (
 	begin
 		case(control)
 			2'b00:begin
-				out = out1;
-				cf = cf_add;
+				out <= out1;
+				cf <= cf_add;
 			end
 			2'b01:begin
-				out = out2;
-				cf = cf_sub;
+				out <= out2;
+				cf <= cf_sub;
 				
 			end
 			2'b10:begin
-				out = out3;
-				cf = cf_and;
+				out <= out3;
+				cf <= cf_and;
 			end
 			2'b11:begin
-				out = out4;
-				cf = cf_xor;
+				out <= out4;
+				cf <= cf_xor;
 			end
 			
 		endcase
