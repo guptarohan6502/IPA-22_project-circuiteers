@@ -223,44 +223,6 @@ module Processor;
 initial
 begin
 
-<<<<<<< HEAD
-  initial begin
-    $dumpfile("Processor.vcd");
-    $dumpvars(0, Processor);
-    stat[0] = 1;
-    stat[1] = 0;
-    stat[2] = 0;
-    clk = 0;
-    pc = 64'd31;
-  end 
-
-  always@(*)
-  begin
-    pc = predict_pc; // Updated PC
-  end
-
-  always@(*)
-  begin
-    if(hltins)
-    begin
-      stat[2]=hltins;
-      stat[1]=1'b0;
-      stat[0]=1'b0;
-    end
-    else if(instr_valid==1'b0)
-    begin
-      stat[1]=instr_valid;
-      stat[2]=1'b0;
-      stat[0]=1'b0;
-    end
-    else
-    begin
-      stat[0]=1'b1;
-      stat[1]=1'b0;
-      stat[2]=1'b0;
-    end
-  end
-=======
     $dumpfile("proc.vcd");
     $dumpvars(0, Processor);
     // $readmemh("rom.mem", instr_mem);
@@ -270,15 +232,12 @@ begin
 
 end
 
->>>>>>> f4adb47d86102a33919c7f6c10b984973b0e1495
   
 always @(posedge clk)
       begin    
         pc <= newpc;
       end
 
-<<<<<<< HEAD
-=======
     always #10 clk <= ~clk;
     initial
         #300 $finish;
@@ -286,10 +245,7 @@ always @(posedge clk)
     
 initial begin
 		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
->>>>>>> f4adb47d86102a33919c7f6c10b984973b0e1495
 
 end
-
-
 
 endmodule
