@@ -115,14 +115,10 @@ begin
 
     $dumpfile("proc.vcd");
     $dumpvars(0, proc);
-<<<<<<< Updated upstream
-    // $readmemh("rom.mem", instr_mem); // this is defined already //
-=======
     // $readmemh("rom.mem", instr_mem);
     
     clk = 1'b1;
     pc = 64'd0;
->>>>>>> Stashed changes
 
 end
 
