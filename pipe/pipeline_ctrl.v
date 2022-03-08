@@ -1,31 +1,29 @@
 
-module PIPE_CONTROL_LOGIC(clk, );
+module PIPE_CONTROL_LOGIC(
 
-input clk;
-input [3:0] D_icode;
-input [3:0] d_srcA;
-input [3:0] d_srcB;
-input [3:0] E_icode;
-input [3:0] E_dstM;
-input e_Cnd;
-input [3:0] M_icode;
-input [2:0] m_stat;
-input [2:0] W_stat;
+input clk,
+input [3:0] D_icode,
+input [3:0] d_srcA,
+input [3:0] d_srcB,
+input [3:0] E_icode,
+input [3:0] E_dstM,
+input e_Cnd,
+input [3:0] M_icode,
+input [2:0] m_stat,
+input [2:0] W_stat,
 
-output reg F_stall;
-output reg D_stall;
-output reg D_bubble;
-output reg E_bubble;
-output reg M_bubble;
-output reg W_stall;
-
-
+output reg F_stall,
+output reg D_stall,
+output reg D_bubble,
+output reg E_bubble,
+output reg M_bubble,
+output reg W_stall
+);
 parameter SBUB = 3'h0;
 parameter SAOK = 3'h1;
 parameter SHLT = 3'h2;
 parameter SADR = 3'h3;
 parameter SINS = 3'h4;
-
 
     initial
     begin
@@ -39,7 +37,12 @@ parameter SINS = 3'h4;
 
 
     always @(*) begin
-	    
+	    F_stall <= ( ((E_icode == 4'h5 || E_icode == 4'hB) && (E_dstM == d_srcA || E_dstM == d_srcB)) || (D_icode == 4'h9 || E_icode == 4'h9 || M_icode == 4'h9));
+        D_bubble <= (( E_icode == 4'h7 && !e_Cnd ) || !(E_icode == 4'h5 || E_icode == 4'hB)  && (E_dstM == d_srcA || E_dstM== d_srcB)&& (D_icode == 4'h9 || E_icode == 4'h9 || M_icode == 4'h9));
+        D_stall <= (E_icode == 4'h5 || E_icode == 4'hB) && (E_dstM == d_srcA || E_dstM == d_srcB);
+        E_bubble <= (( E_icode == 4'h7 && !e_Cnd ) || (E_icode == 4'h5 || E_icode == 4'hB)  && (E_dstM == d_srcA || E_dstM== d_srcB));
+        M_bubble <= (m_stat == SADR ||  m_stat == SHLT || m_stat == SINS) || (W_stat == SADR ||  W_stat == SHLT || W_stat == SINS);
+        W_stall <= (W_stat == SADR ||  W_stat == SHLT || W_stat == SINS);
     end
 
 endmodule
