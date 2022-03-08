@@ -27,7 +27,6 @@ module proc;
 
 reg clk; 
 reg [63:0] pc;
-reg halt;
 
 // fetch, intruction memory
 wire [3:0] icode;
@@ -130,7 +129,7 @@ always @(posedge clk)
 
     
 initial begin
-		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,newpc);
+		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
 
 end
 

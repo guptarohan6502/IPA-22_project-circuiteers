@@ -13,9 +13,9 @@ initial begin
 //nopo 	
 instr_mem[0] <= 8'b00010000; //icode ifun
 
-//irmovq %16 %r12
+//irmovq %10 %r12
 instr_mem[1] <= 8'b00110000; //icode ifun
-instr_mem[2] <= 8'b11111000; //reg 15 8
+instr_mem[2] <= 8'b11111100; //reg 15 8
 instr_mem[3] <= 8'b00001010; // 1 0
 instr_mem[4] <= 8'b00000000;
 instr_mem[5] <= 8'b00000000;
@@ -25,7 +25,7 @@ instr_mem[8] <= 8'b00000000;
 instr_mem[9] <= 8'b00000000;
 instr_mem[10] <= 8'b00000000; // 0 0 
 
-//irmovq %10 %rdi
+//irmovq %16 %rdi
 instr_mem[11] <= 8'b00110000; //icode ifun 3 0
 instr_mem[12] <= 8'b11110111; //reg F 7
 instr_mem[13] <= 8'b00010000; // 10 : 0 A
@@ -49,19 +49,33 @@ instr_mem[28] <= 8'b00000000;
 instr_mem[29] <= 8'b00000000;
 instr_mem[30] <= 8'b00000000;
 
-//call
-instr_mem[31] <= 8'b10000000; //icode ifun: 8 0 
-instr_mem[32] <= 8'b01110000; 
-instr_mem[33] <= 8'b00000000;
+
+//mrmovq %r13 %(rdi) 
+instr_mem[31] <= 8'b01010000; //icode ifun 3 0
+instr_mem[32] <= 8'b11010111; //reg 
+instr_mem[33] <= 8'b00000000; // 10 : 0 A
 instr_mem[34] <= 8'b00000000;
 instr_mem[35] <= 8'b00000000;
 instr_mem[36] <= 8'b00000000;
 instr_mem[37] <= 8'b00000000;
 instr_mem[38] <= 8'b00000000;
 instr_mem[39] <= 8'b00000000;
+instr_mem[40] <= 8'b00000000;
+
+
+//call
+instr_mem[41] <= 8'b10000000; //icode ifun: 8 0 
+instr_mem[42] <= 8'b01110000; 
+instr_mem[43] <= 8'b00000000;
+instr_mem[44] <= 8'b00000000;
+instr_mem[45] <= 8'b00000000;
+instr_mem[46] <= 8'b00000000;
+instr_mem[47] <= 8'b00000000;
+instr_mem[48] <= 8'b00000000;
+instr_mem[49] <= 8'b00000000;
 
 //halt
-instr_mem[40] <= 8'b00000000; // 00
+instr_mem[50] <= 8'b00000000; // 00
 
 // irmovq $8 %r8
 instr_mem[112] <= 8'b00110000; //icode ifun

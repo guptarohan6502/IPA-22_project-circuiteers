@@ -29,7 +29,6 @@ module Processor;
 
     reg clk;
     reg [63:0] pc;
-    reg stat[0:2];
 
     // fetch
     wire [3:0] M_icode;
@@ -45,7 +44,6 @@ module Processor;
     wire imem_error;
     wire [7:0] Byte0;
     wire [71:0] Byte19;
-    wire [7:0] instr_mem[2047:0];
 
     // execute, execute register
     wire [63:0] aluA;
@@ -222,8 +220,10 @@ module Processor;
                 .d_srcA(d_srcA), .d_srcB(d_srcB), .E_icode(E_icode), .E_dstM(E_dstM), .e_Cnd(e_Cnd), .M_icode(M_icode), .m_stat(m_stat), .W_stat(W_stat),
                 .F_stall(F_stall), .D_stall(D_stall), .D_bubble(D_bubble), .E_bubble(E_bubble), .M_bubble(M_bubble), .W_stall(W_stall));
 
-    always #5 clk=~clk;
+initial
+begin
 
+<<<<<<< HEAD
   initial begin
     $dumpfile("Processor.vcd");
     $dumpvars(0, Processor);
@@ -260,16 +260,35 @@ module Processor;
       stat[2]=1'b0;
     end
   end
+=======
+    $dumpfile("proc.vcd");
+    $dumpvars(0, Processor);
+    // $readmemh("rom.mem", instr_mem);
+    
+    clk = 1'b1;
+    pc = 64'd0;
+
+end
+
+>>>>>>> f4adb47d86102a33919c7f6c10b984973b0e1495
   
-  always@(*)
-  begin
-    if(stat[2]==1'b1)
-    begin
-      $finish;
-    end
-  end
+always @(posedge clk)
+      begin    
+        pc <= newpc;
+      end
 
+<<<<<<< HEAD
+=======
+    always #10 clk <= ~clk;
+    initial
+        #300 $finish;
 
+    
+initial begin
+		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
+>>>>>>> f4adb47d86102a33919c7f6c10b984973b0e1495
+
+end
 
 
 

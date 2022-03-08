@@ -20,7 +20,7 @@ always @(write, read, memdata, memaddr) begin
 	end
 
 	if(write && !read) begin
-		memory[memaddr] <= valM;
+		memory[memaddr] <= memdata;
 	end
 
 	if (memaddr >= 64'd258) begin

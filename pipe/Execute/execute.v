@@ -64,10 +64,6 @@ wire [2:0] cf_xor;
 			
 endmodule
 
-<<<<<<< HEAD
-module ALU_A(icode, valC, valA, aluA);
-=======
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 module EXE_DST_E_LOGIC (E_icode,e_cnd,e_dstE);
 
@@ -114,11 +110,7 @@ end
 endmodule
 
 
-<<<<<<< HEAD
-module ALU_B(icode, valB, aluB);
-=======
 module ALU_B(E_icode,E_valB,aluB);
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input[3:0] E_icode;
 input[63:0] E_valB;
@@ -139,11 +131,7 @@ end
 endmodule
 
 
-<<<<<<< HEAD
-module ALU_fun(icode, ifun, alufun);
-=======
 module ALU_fun(E_icode,E_ifun,alufun);
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input[3:0] E_icode;
 input[3:0] E_ifun;
@@ -164,11 +152,7 @@ end
 endmodule
 
 
-<<<<<<< HEAD
-module set_CC(icode, cf, outf);
-=======
 module set_CC(E_icode,cf,m_stat,W_stat,outf);
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input [3:0] icode;
 input [2:0]cf;
