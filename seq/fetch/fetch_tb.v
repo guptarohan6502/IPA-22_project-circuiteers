@@ -38,8 +38,6 @@ initial begin
     clk = 0; 
     pc = 64'd1;
 
-    #10 clk = ~clk;
-    #10 clk = ~clk; 
     #10 clk = ~clk; pc=64'd0;
     #10 clk = ~clk; 
     #10 clk = ~clk; pc=valP;
