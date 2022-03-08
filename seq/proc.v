@@ -16,8 +16,8 @@ reg halt;
 // fetch, intruction memory
 wire [3:0] icode;
 wire [3:0] ifun;
-reg [7:0] Byte0;
-reg [71:0] Byte19;
+wire [7:0] Byte0;
+wire [71:0] Byte19;
 wire need_valC;
 wire need_regids;
 wire [63:0] valC;
@@ -74,6 +74,7 @@ PC_INCREMENT PC_i(.pc(pc), .need_regids(need_regids), .need_valC(need_valC), .va
 INSTR_VALID i_valid(.icode(icode), .instr_valid(instr_valid));
 Need_REGIDS nreg(.icode(icode), .need_regids(need_regids));
 Need_VALC n_valC(.icode(icode), .need_valC(need_valC));
+instruction_memory InstMem(.clk(clk),.pc(pc),.imem_error(imem_error),.Byte0(Byte0),.Byte19(Byte19));
 
 // decode 
 registerfile reg_f(.clk(clk), .dstE(dstE), .dstM(dstM), .srcA(srcA) , .srcB(srcB) , .valA(valA) , .valB(valB) , .valM(valM), .valE(valE));
