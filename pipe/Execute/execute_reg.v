@@ -31,22 +31,25 @@ output reg [63:0]E_valB;
 
 always @(posedge(clk)) begin
 	
-	if(!E_bubble) begin
-		E_stat <= D_stat;
-		E_icode <= D_icode;
-		E_ifun <= D_ifun;
-		E_valC <= D_valC;
-		E_valA <= d_valA;
-		E_valB <= d_valB;
-		E_dstE <= d_dstE;
-		E_dstM <= d_dstM;
-		E_srcA <= d_srcA;
-		E_srcB <= d_srcB;
-	end
-	else begin
-		E_icode <= 4'h1;
-		E_ifun <= 4'h0;
-	end
+	case (E_bubble)
+		4'h1:begin
+			E_icode <= 4'h1;
+			E_ifun <= 4'h0;
+		end
+		default:begin
+			E_stat <= D_stat;
+			E_icode <= D_icode;
+			E_ifun <= D_ifun;
+			E_valC <= D_valC;
+			E_valA <= d_valA;
+			E_valB <= d_valB;
+			E_dstE <= d_dstE;
+			E_dstM <= d_dstM;
+			E_srcA <= d_srcA;
+			E_srcB <= d_srcB;
+		end
+	endcase
+
 end
 
 

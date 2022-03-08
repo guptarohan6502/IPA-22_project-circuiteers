@@ -24,19 +24,22 @@ output reg [63:0]M_valA;
 
 always @(posedge(clk)) begin
 
-	if(!M_bubble) begin
-		M_stat <= E_stat;
-		M_icode <= E_stat;
-		M_cnd <= e_cnd;
-		M_valE <= e_valE;
-		M_valA <= E_valA;
-		M_dstE <= e_dstE;
-		M_dstM <= E_dstM;
-	end
-	else begin
-		M_icode <= 4'h1;
-	end
-	
+	case (M_bubble)
+		4'h1:begin
+			M_icode <= 4'h1;
+
+		end
+		default: begin
+			M_stat <= E_stat;
+			M_icode <= E_stat;
+			M_cnd <= e_cnd;
+			M_valE <= e_valE;
+			M_valA <= E_valA;
+			M_dstE <= e_dstE;
+			M_dstM <= E_dstM;
+		end
+	endcase
+
 end
 
 

@@ -19,14 +19,24 @@ output reg [63:0] W_valM;
 
 always @(posedge(clk)) begin
 
-	if(!W_stall) begin
-		W_stat <= m_stat;
-		W_icode <= M_icode;
-		W_valE <= M_valE;
-		W_valM <= m_valM;
-		W_dstE <= M_dstE;
-		W_dstM <= M_dstM;
-	end
+	case (W_stall)
+		4'h1: begin
+			W_stat <= W_stat;
+			W_icode <= W_icode;
+			W_valE <= W_valE;
+			W_valM <= W_valM;
+			W_dstE <= W_dstE;
+			W_dstM <= W_dstM;
+		end
+		default: begin
+			W_stat <= m_stat;
+			W_icode <= M_icode;
+			W_valE <= M_valE;
+			W_valM <= m_valM;
+			W_dstE <= M_dstE;
+			W_dstM <= M_dstM;
+		end
+	endcase
 	
 end
 

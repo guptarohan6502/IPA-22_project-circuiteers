@@ -22,19 +22,37 @@ output reg [63:0] D_valP;
 
 always @(posedge(clk)) begin
 	
-	if(!D_stall && !D_bubble) begin
-		D_stat <= f_stat;
-		D_icode <= f_icode;
-		D_ifun <= f_ifun;
-		D_rA <= f_rA;
-		D_rB <= f_rB;
-		D_valC <= f_valC;
-		D_valP <= f_valP;
-	end
-	else if (D_bubble) begin
-		D_icode <= 4'h1;
-		D_ifun <= 4'h0;
-	end
+	case (D_stall)
+		4'h1: begin
+			D_stat <= D_stat;
+			D_icode <= D_icode;
+			D_ifun <= D_ifun;
+			D_rA <= D_rA;
+			D_rB <= D_rB;
+			D_valC <= D_valC;
+			D_valP <= D_valP;
+		end
+		default:begin 
+			case (D_bubble)
+				4'h1: begin
+					D_icode <= 4'h1;
+					D_ifun <= 4'h0;
+				end
+				default: begin
+					D_stat <= f_stat;
+					D_icode <= f_icode;
+					D_ifun <= f_ifun;
+					D_rA <= f_rA;
+					D_rB <= f_rB;
+					D_valC <= f_valC;
+					D_valP <= f_valP;
+				end
+			endcase 
+			
+			end
+	endcase
+	
+	
 end
 
 

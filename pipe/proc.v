@@ -200,7 +200,7 @@ module Processor;
   
 
     // pipeline control 
-    PIPE_CONTROL_LOGIC pipe_ctrl(.clk(clk), .D_icode(D_icode),
+    PIPE_CONTROL_LOGIC pipe_ctrl(.D_icode(D_icode),
                 .d_srcA(d_srcA), .d_srcB(d_srcB), .E_icode(E_icode), .E_dstM(E_dstM), .e_Cnd(e_Cnd), .M_icode(M_icode), .m_stat(m_stat), .W_stat(W_stat),
                 .F_stall(F_stall), .D_stall(D_stall), .D_bubble(D_bubble), .E_bubble(E_bubble), .M_bubble(M_bubble), .W_stall(W_stall));
 
@@ -219,18 +219,30 @@ end
   
 always @(posedge clk)
       begin    
-        if(!F_stall) begin
-		F_pred_pc <= predict_pc;
-	end
+          case (F_stall)
+              1'b1:
+                F_pred_pc <= F_pred_pc; 
+              default: F_pred_pc <= predict_pc;
+          endcase
       end
 
     always #5 clk <= ~clk;
     initial
-        #100 $finish;
+        #300 $finish;
 
     
 initial begin
-		$monitor("clk=%d, pc=%d, f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n", clk, F_pred_pc, f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
+	//USE below monitor to monitor fetch values.
+    	//$monitor("clk=%d,F_stall = %b, F_pc=%d, predict_pc = %d,f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n", clk, F_stall,F_pred_pc,predict_pc ,f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
+    // Pipeline control Monitor
+        $monitor("clk=%d,F_pc = %d,D_icode =%d,E_icode = %d,E_dstM=%b,d_srcA =%b,d_srcB = %b,m_stat=%b,W_stat = %b,M_icode=%d,e_cnd = %b,F_stall = %b, D_stall = %b,W_stall = %b,D_bubble = %b,E_bubble = %b,M_bubble = %b\n", 
+         clk,F_pred_pc,D_icode,E_icode,E_dstM
+         ,d_srcA,d_srcB,m_stat,W_stat,
+         M_icode,e_cnd,F_stall , D_stall, W_stall,
+         D_bubble,E_bubble,M_bubble);
+    // Decode Stage 
+        //$monitor("clk=%d,F_pc = %d,D_icode = %d,D_ifun = %d, f_rA = %b,D_rA = %b, D_rB = %b, D_valC =%d ,D_valP = %d,d_srcA =%b,d_srcB = %b\n",clk,F_pred_pc,D_icode,D_ifun,f_rA,D_rA,D_rB,D_valC,D_valP,d_srcA,d_srcB,);
+
 
 end
 

@@ -1,7 +1,6 @@
 
 module PIPE_CONTROL_LOGIC(
 
-input clk,
 input [3:0] D_icode,
 input [3:0] d_srcA,
 input [3:0] d_srcB,
