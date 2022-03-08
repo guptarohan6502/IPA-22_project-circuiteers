@@ -1,9 +1,10 @@
-module EXECUTE_REG(clk,D_stat,D_icode,D_ifun,D_valC,d_valA,
+module EXECUTE_REG(clk,E_bubble,D_stat,D_icode,D_ifun,D_valC,d_valA,
 d_valB,d_dstE,d_dstM,d_srcA,d_srcB,
 E_stat,E_icode,E_ifun,E_valC,E_valA,E_valB,E_dstE,E_dstM
 E_srcA,E_srcB);
 
-input clk
+input clk;
+input E_bubble;
 input [2:0]D_stat;
 input [3:0]D_icode; 
 input [3:0]D_ifun; 
@@ -28,7 +29,25 @@ output reg [63:0]E_valA;
 output reg [63:0]E_valB;
 
 
-
+always @(posedge(clk)) begin
+	
+	if(!E_bubble) begin
+		E_stat <= D_stat;
+		E_icode <= D_icode;
+		E_ifun <= D_ifun;
+		E_valC <= D_valC;
+		E_valA <= d_valA;
+		E_valB <= d_valB;
+		E_dstE <= d_dstE;
+		E_dstM <= d_dstM;
+		E_srcA <= d_srcA;
+		E_srcB <= d_srcB;
+	end
+	else begin
+		E_icode <= 4'h1;
+		E_ifun <= 4'h0;
+	end
+end
 
 
 
