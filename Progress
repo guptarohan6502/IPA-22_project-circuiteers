@@ -24,3 +24,7 @@ what is given in ppt abt conditional move abt taking jump
 is cmov exist in y86 how does it work
 
 what is the stat in sequential memory block doing
+
+
+Cause of Erooros 
+Wrong connecton in proc.v like of .dst_M(.dst_M)

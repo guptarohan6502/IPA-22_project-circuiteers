@@ -30,7 +30,7 @@ always @(posedge(clk)) begin
 		M_cnd <= e_cnd;
 		M_valE <= e_valE;
 		M_valA <= E_valA;
-		M_dstE <= e_dstE
+		M_dstE <= e_dstE;
 		M_dstM <= E_dstM;
 	end
 	else begin

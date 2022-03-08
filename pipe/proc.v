@@ -5,10 +5,11 @@
 `include "fetch/instrmem.v"
 `include "Decode_wb/decode_reg.v"
 `include "Decode_wb/decode_wb.v"
-`include "Decode_wb/white_reg.v"
+`include "Decode_wb/write_reg.v"
 `include "Execute/execute_reg.v"
 `include "Execute/execute.v"
 `include "Memory/mem_reg.v"
+`include "Memory/ram.v"
 `include "pipeline_ctrl.v"
 
 `include "Execute/Alu/alu.v"
@@ -28,17 +29,13 @@
 module Processor;
 
     reg clk;
-    reg [63:0] pc;
 
     // fetch
-    wire [3:0] M_icode;
-    wire [63:0] M_valA;
-    wire [3:0] W_valM;
     wire [63:0] f_pc;
 
     // fetch reg
     wire [63:0] predict_pc;
-    wire [63:0] F_pred_PC;
+    reg [63:0] F_pred_pc;
 
     // instruction memory
     wire imem_error;
@@ -51,6 +48,7 @@ module Processor;
     wire [1:0]  alufun;
     wire [63:0] valE;
     wire [2:0]  cf;
+    wire [2:0] outf;
     // wire signed [63:0] out1;
     // wire [2:0] cf_add;
     // wire signed [63:0] out2;
@@ -105,31 +103,18 @@ module Processor;
     wire [63:0] d_rvalB;
 
     wire [63:0] register_file[14:0];
-    wire [2:0] W_stat;
-    reg [2:0] stat;
+    wire [2:0] stat;
 
-	wire [63:0] d_rvalA;
-	wire [63:0] D_valP;
-	wire [3:0] d_srcA;
 	wire [3:0] e_dstE;
 	wire [3:0] M_dstM;
 	wire [3:0] M_dstE;
-	wire [3:0] W_dstM;
-	wire [3:0] W_dstE;
-	wire [63:0] e_valE;
 	wire [63:0] m_valM;
 
-    wire [63:0] d_rvalB;
-	wire [3:0] d_srcB;
-	wire [63:0] W_valM;
-	wire [63:0] W_valE;
 
     wire [2:0]m_stat;
     wire [3:0]m_icode; 
     wire [63:0]m_valA; 
     wire [63:0]M_valE;
-    wire [3:0]M_dstE;
-    wire [3:0]M_dstM;
 
     wire [2:0] W_stat;
     wire [3:0] W_icode; 
@@ -166,10 +151,10 @@ module Processor;
     wire W_stall;
 
     // fetch
-    FETCH_REG f_reg(.clk(clk), .predict_pc(predict_pc), .F_pred_PC(F_pred_PC));
-    SELECT_PC sel_pc(.F_pred_PC(F_pred_PC), .M_icode(M_icode), .M_cnd(M_cnd), .M_valA(M_valA), .W_icode(W_icode), .W_valM(W_valM), .f_pc(f_pc));
-    PREDICT_PC pred_pc(.f_icode(f_icode), .valC(valC), .valP(valP), .predict_pc(predict_pc));
-    STAT stat(.f_icode(f_icode), .instr_valid(instr_valid), .imem_error(imem_error), .f_stat(f_stat));
+    //FETCH_REG f_reg(.clk(clk), .predict_pc(predict_pc), .F_pred_pc(F_pred_pc));
+    SELECT_PC sel_pc(.F_pred_pc(F_pred_pc), .M_icode(M_icode), .M_cnd(M_cnd), .M_valA(M_valA), .W_icode(W_icode), .W_valM(W_valM), .f_pc(f_pc));
+    PREDICT_PC pred_pc(.f_icode(f_icode), .f_valC(f_valC), .f_valP(f_valP), .predict_pc(predict_pc));
+    STAT_fetchlogic flstat(.f_icode(f_icode), .instr_valid(instr_valid), .imem_error(imem_error), .f_stat(f_stat));
     split sp(.Byte0(Byte0), .f_icode(f_icode), .f_ifun(f_ifun));
     align al(.Byte19(Byte19), .need_regids(need_regids), .f_rA(f_rA), .f_rB(f_rB), .f_valC(f_valC));
     PC_INCREMENT PC_i(.f_pc(f_pc), .f_icode(f_icode), .need_regids(need_regids), .need_valC(need_valC), .f_valP(f_valP));
@@ -180,39 +165,38 @@ module Processor;
     
     // decode
      DECODE_REG d_reg(.clk(clk), .f_stat(f_stat), .f_icode(f_icode), .f_ifun(f_ifun), .f_rA(f_rA), .f_rB(f_rB), .f_valC(f_valC), .f_valP(f_valP), .D_stat(D_stat), .D_icode(D_icode), .D_ifun(D_ifun), .D_rA(D_rA), .D_rB(D_rB), .D_valC(D_valC), .D_valP(D_valP));
-     registerfile reg_file(.clk(clk), .dstE(dstE), .dstM(dstM), .srcA(srcA), .srcB(srcB), .valE(valE), .valM(valM), .valA(valA), .valB(valB));
+     registerfile reg_file(.clk(clk), .W_dstE(W_dstE), .W_dstM(W_dstM), .d_srcA(d_srcA), .d_srcB(d_srcB), .W_valE(W_valE), .W_valM(W_valM), .d_rvalA(d_rvalA), .d_rvalB(d_rvalB));
      WRITE_STAT wr_stat(.W_stat(W_stat), .stat(stat));
      d_VALA_logic d_valAlog(.D_icode(D_icode), .d_rvalA(d_rvalA), .D_valP(D_valP), .d_srcA(d_srcA), .e_dstE(e_dstE), .M_dstM(M_dstM),
-	 .M_dstE(M_dstE), .W_dstM(W_dstM), .W_dstE(W_dstE), .e_valE(e_ValE), .m_valM(m_valM), .M_valE(M_valE), .W_valM(W_valM), .W_valE(W_valE), .d_valA(d_valA) );
+	 .M_dstE(M_dstE), .W_dstM(W_dstM), .W_dstE(W_dstE), .e_valE(e_valE), .m_valM(m_valM), .M_valE(M_valE), .W_valM(W_valM), .W_valE(W_valE), .d_valA(d_valA) );
      d_VALB_logic d_valBlog(.d_rvalB(d_rvalB), .D_valP(D_valP), .d_srcB(d_srcB), .e_dstE(e_dstE), .M_dstM(M_dstM), .M_dstE(M_dstE),
 	                .W_dstM(W_dstM), .W_dstE(W_dstE), .e_valE(e_valE), .m_valM(m_valM), .M_valE(M_valE), .W_valM(W_valM), .W_valE(W_valE), .d_valB(d_valB) );
-    d_srcA_logic d_srcAlog(.D_icode(D_icode), .D_rA(D_rA), .d_srcA(d_src_A));
+    d_srcA_logic d_srcAlog(.D_icode(D_icode), .D_rA(D_rA), .d_srcA(d_srcA));
     d_srcB_logic d_srcBlog(.D_icode(D_icode), .D_rB(D_rB), .d_srcB(d_srcB));
     dstE_logic dstE_log(.D_icode(D_icode), .D_ifun(D_ifun), .D_rB(D_rB), .d_dstE(d_dstE));
     dstM_logic dstM_log(.D_icode(D_icode), .D_rA(D_rA), .d_dstM(d_dstM));
-    WRITE_REG wr_reg(.clk(clk), .m_stat(m_stat), .m_icode(m_icode), .M_valE(M_valE), .m_valA(m_valA), .M_dstE(M_dstE), .M_dstM(M_dstE),
+    WRITE_REG wr_reg(.clk(clk),.W_stall(W_stall),.m_stat(m_stat),.m_valM(m_valM), .M_icode(M_icode), .M_valE(M_valE), .M_dstE(M_dstE), .M_dstM(M_dstM),
                     .W_stat(W_stat), .W_icode(W_icode), .W_valE(W_valE), .W_valM(W_valM), .W_dstE(W_dstE), .W_dstM(W_dstM));
     
     // execute
     EXECUTE_REG exec_reg(.clk(clk), .D_stat(D_stat), .D_icode(D_icode), .D_ifun(D_ifun), .D_valC(D_valC), .d_valA(d_valA),
         .d_valB(d_valB), .d_dstE(d_dstE), .d_dstM(d_dstM), .d_srcA(d_srcA), .d_srcB(d_srcB), .E_stat(E_stat), .E_icode(E_icode), .E_ifun(E_ifun), .E_valC(E_valC), .E_valA(E_valA), .E_valB(E_valB), .E_dstE(E_dstE), .E_dstM(E_dstM), .E_srcA(E_srcA), .E_srcB(E_srcB));
     alu_block alulogic(.aluA(aluA), .aluB(aluB), .alufun(alufun), .cf(cf), .valE(valE));
-    ALU_A alualogic(.icode(icode), .valA(valA), .valC(valC), .aluA(aluA));
-    ALU_B alublogic(.icode(icode), .valB(valB), .aluB(aluB));
-    ALU_fun alufunlogic(.icode(icode), .ifun(ifun), .alufun(alufun));
-    set_CC cclogiv(.icode(icode), .cf(cf), .outf(outf));
-    CND cndlogic(.ifun(ifun), .outf(outf), .cnd(cnd));
+    ALU_A alualogic(.E_icode(E_icode), .E_valA(E_valA), .E_valC(E_valC), .aluA(aluA));
+    ALU_B alublogic(.E_icode(E_icode), .E_valB(E_valB), .aluB(aluB));
+    ALU_fun alufunlogic(.E_icode(E_icode), .E_ifun(E_ifun), .alufun(alufun));
+    set_CC cclogiv(.E_icode(E_icode), .cf(cf), .outf(outf));
+    CND cndlogic(.E_ifun(E_ifun), .outf(outf), .e_cnd(e_cnd));
 
     // memory
-    MEMORY_REG mem_reg(.clk(clk), .E_stat(E_stat), .E_icode(E_icode), .e_cnd(e_cnd), e_valE(e_valE),
+    MEMORY_REG mem_reg(.clk(clk), .E_stat(E_stat), .E_icode(E_icode), .e_cnd(e_cnd), .e_valE(e_valE),
         .E_valA(E_valA), .e_dstE(e_dstE), .E_dstM(E_dstM),
         .M_stat(M_stat), .M_icode(M_icode), .M_cnd(M_cnd), .M_valE(M_valE), .M_valA(M_valA), .M_dstE(M_dstE), .M_dstM(M_dstM));
-    RAM ram(.memaddr(memaddr), .memdata(memdata), .read(read), .write(write), .valM(valM), .dmemerror(dmemerror));
+    RAM ram(.memaddr(memaddr),.read(read), .write(write),.E_valA(E_valA),.m_valM(m_valM), .dmemerror(dmemerror));
     MEM_addr m_addr(.M_icode(M_icode), .M_valE(M_valE), .M_valA(M_valA), .memaddr(memaddr));
-    MEM_data m_data(.icode(icode), .valA(valA), .valP(valP), .memdata(memdata));
     MEM_read m_read(.M_icode(M_icode), .read(read));
     MEM_write m_write(.M_icode(M_icode), .write(write));
-    STAT mem_stat(.dmemerror(dmemerror), .M_stat(M_stat), .m_stat(m_stat));
+    STAT_memlogic mem_stat(.dmemerror(dmemerror), .M_stat(M_stat), .m_stat(m_stat));
   
 
     // pipeline control 
@@ -223,70 +207,30 @@ module Processor;
 initial
 begin
 
-<<<<<<< HEAD
-  initial begin
-    $dumpfile("Processor.vcd");
-    $dumpvars(0, Processor);
-    stat[0] = 1;
-    stat[1] = 0;
-    stat[2] = 0;
-    clk = 0;
-    pc = 64'd31;
-  end 
-
-  always@(*)
-  begin
-    pc = predict_pc; // Updated PC
-  end
-
-  always@(*)
-  begin
-    if(hltins)
-    begin
-      stat[2]=hltins;
-      stat[1]=1'b0;
-      stat[0]=1'b0;
-    end
-    else if(instr_valid==1'b0)
-    begin
-      stat[1]=instr_valid;
-      stat[2]=1'b0;
-      stat[0]=1'b0;
-    end
-    else
-    begin
-      stat[0]=1'b1;
-      stat[1]=1'b0;
-      stat[2]=1'b0;
-    end
-  end
-=======
     $dumpfile("proc.vcd");
     $dumpvars(0, Processor);
     // $readmemh("rom.mem", instr_mem);
     
     clk = 1'b1;
-    pc = 64'd0;
+    F_pred_pc = 64'd0;
 
 end
 
->>>>>>> f4adb47d86102a33919c7f6c10b984973b0e1495
   
 always @(posedge clk)
       begin    
-        pc <= newpc;
+        if(!F_stall) begin
+		F_pred_pc <= predict_pc;
+	end
       end
 
-<<<<<<< HEAD
-=======
-    always #10 clk <= ~clk;
+    always #5 clk <= ~clk;
     initial
-        #300 $finish;
+        #100 $finish;
 
     
 initial begin
-		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
->>>>>>> f4adb47d86102a33919c7f6c10b984973b0e1495
+		$monitor("clk=%d, pc=%d, f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n", clk, F_pred_pc, f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
 
 end
 

@@ -1,26 +1,26 @@
 // reads instructions from intruction memory 
 // finding values of icode, ifun, rA, rB, valC using the instructions
 
-module SELECT_PC(F_pred_PC, M_icode, M_cnd, M_valA, W_icode, W_valM,f_pc);
+module SELECT_PC(F_pred_pc, M_icode, M_cnd, M_valA, W_icode, W_valM,f_pc);
 
-input [63:0] F_pred_PC;
+input [63:0] F_pred_pc;
 input [3:0] M_icode;
 /////////////////////////////look at this line////////'
 input M_cnd;
 
 input [63:0] M_valA;
 input [3:0] W_icode;
-input [3:0] W_valM;
+input [63:0] W_valM;
 
 output reg [63:0] f_pc;
 
 always @(*) begin
-    if(M_icode == 4'h7 && !M_Cnd) 
+    if(M_icode == 4'h7 && !M_cnd) 
         f_pc <= M_valA;
     else if( W_icode == 4'h9 )
         f_pc <= W_valM;
     else
-        f_pc <= F_pred_PC;
+        f_pc <= F_pred_pc;
 end
 
 
@@ -29,24 +29,26 @@ endmodule
 
 
 
-module PREDICT_PC(f_icode, valC, valP, predict_pc);
+module PREDICT_PC(f_icode, f_valC, f_valP, predict_pc);
 
 input [3:0] f_icode;
-input [63:0] valC;
-input [63:0] valP;
+input [63:0] f_valC;
+input [63:0] f_valP;
 output reg [63:0] predict_pc;
 
 always @(*) begin
     case (f_icode)
         4'h7,4'h8:
-            predict_pc <= valC; 
-        default: predict_pc<= valP 
+            predict_pc <= f_valC; 
+        default: predict_pc<= f_valP;
     endcase
 
 end
 
 endmodule
-module STAT(f_icode,instr_valid,imem_error,f_stat);
+
+module STAT_fetchlogic(f_icode,instr_valid,imem_error,f_stat);
+
     input [3:0] f_icode;
     input imem_error;
     input instr_valid;
@@ -77,8 +79,8 @@ input [7:0] Byte0;
 output [3:0] f_icode;
 output [3:0] f_ifun;
 
-    assign f_icode = Byte0[0:4];
-    assign f_ifun = Byte0[5:7];
+    assign f_icode = Byte0[7:4];
+    assign f_ifun = Byte0[3:0];
 
 endmodule
 
@@ -137,9 +139,9 @@ output [3:0] f_rA;
 output [3:0] f_rB;
 output [63:0] f_valC;
 
-    assign f_rA = Byte19[7:4] ;
+    assign f_rA = Byte19[7:4];
     assign f_rB = Byte19[3:0];
-    assign f_valC = need_regids ? Byte19[71:8]Byte19[63:0];
+    assign f_valC = need_regids ? Byte19[71:8]:Byte19[63:0];
 
   
 endmodule
@@ -153,13 +155,17 @@ input need_valC;
 reg halt;
 output [63:0] f_valP;
 
-   if(icode == 4'b000) begin
+always @(f_icode) begin
+    if(f_icode == 4'b000) begin
         halt =1'b1;
     end
     else
         halt =1'b0;
+    
+end
+   
 
-    assign f_valP = halt? pc:(need_valC ? (need_regids ? f_pc+10:f_pc+9):(need_regids ? f_pc+2:f_pc+1));
+    assign f_valP = halt? f_pc:(need_valC ? (need_regids ? f_pc+10:f_pc+9):(need_regids ? f_pc+2:f_pc+1));
 
 endmodule
 

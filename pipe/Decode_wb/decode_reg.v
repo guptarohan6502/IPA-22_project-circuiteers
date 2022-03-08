@@ -1,4 +1,4 @@
-module DECODE_REG(clk,D_stall, D_bubble,f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP
+module DECODE_REG(clk,D_stall, D_bubble,f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP,
 D_stat,D_icode,D_ifun,D_rA,D_rB,D_valC,D_valP);
 
 input clk;

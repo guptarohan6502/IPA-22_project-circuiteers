@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 
-module registerfile(clk, dstE, dstM, srcA, srcB, valE, valM, valA, valB);
+module registerfile(clk, W_dstE, W_dstM, d_srcA, d_srcB, W_valE, W_valM, d_rvalA, d_rvalB);
 
 input [3:0]W_dstE;
 input [3:0]W_dstM;
@@ -61,7 +61,7 @@ always @(*) begin
 		
 	end
 
-	if (srcB != rnone) begin
+	if (d_srcB != rnone) begin
 		d_rvalB <= register_file[d_srcB];
 		
 	end
@@ -70,11 +70,11 @@ end
 
 always @(posedge(clk)) begin
 
-	if(dstE != rnone) begin
+	if(W_dstE != rnone) begin
 		register_file[W_dstE] <= W_valE;
 	end
 
-	if(dstM != rnone) begin
+	if(W_dstM != rnone) begin
 		register_file[W_dstM] <= W_valM;
 	end
 	
@@ -120,7 +120,7 @@ module d_VALA_logic(
 	input [63:0] M_valE,
 	input [63:0] W_valM,
 	input [63:0] W_valE,
-	output d_valA  );
+	output reg [63:0] d_valA  );
 
 always @(*) begin
 	
@@ -164,7 +164,7 @@ module d_VALB_logic(
 	input [63:0] M_valE,
 	input [63:0] W_valM,
 	input [63:0] W_valE,
-	output d_valB );
+	output reg [63:0]d_valB );
 
 always @(*) begin
 	
@@ -265,12 +265,11 @@ parameter rnone = 4'hF ;
 always @(*) begin
 
 	case (D_icode) 
-
 	4'h2,4'h3, 4'h6:
-		dstE <= rB;
+		d_dstE <= D_rB;
 	4'hA, 4'hB, 4'h8, 4'h9:
-		dstE <= rsp;
-		default: dstE <= rnone;
+		d_dstE <= rsp;
+		default: d_dstE <= rnone;
 	endcase
 	
 end

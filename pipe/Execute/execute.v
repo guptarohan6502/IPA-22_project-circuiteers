@@ -1,18 +1,4 @@
 
-`include "Alu/alu.v"
-`include "And/and_1bit.v"
-`include "And/and_64bit.v"
-`include "Xor/xor_1bit.v"
-`include "Xor/xor_64bit.v"
-`include "Or/or_1bit.v"
-
-`include "Add/add_1bit.v"
-`include "Add/add_64bit.v"
-
-`include "Sub/not_1bit.v"
-`include "Sub/not_64bit.v"
-`include "Sub/sub_64bit.v"
-
 
 module alu_block(aluA, aluB, alufun, valE, cf);
 
@@ -65,10 +51,11 @@ wire [2:0] cf_xor;
 endmodule
 
 
-module EXE_DST_E_LOGIC (E_icode,e_cnd,e_dstE);
+module EXE_DST_E_LOGIC (E_icode,e_cnd,E_dstE,e_dstE);
 
 input[3:0] E_icode;
 input e_cnd;
+input [3:0] E_dstE;
 output reg [3:0] e_dstE;
 
 parameter rnone = 4'hF ;
@@ -154,7 +141,7 @@ endmodule
 
 module set_CC(E_icode,cf,m_stat,W_stat,outf);
 
-input [3:0] icode;
+input [3:0] E_icode;
 input [2:0]cf;
 input [2:0] m_stat,W_stat;
 output reg[2:0] outf;

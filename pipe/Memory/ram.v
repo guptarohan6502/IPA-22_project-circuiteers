@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module RAM(memaddr, memdata, read, write,E_valA, m_valM, dmemerror);
+module RAM(memaddr, read, write,E_valA, m_valM, dmemerror);
 
 input[63:0] memaddr;
 input[63:0] E_valA;
@@ -13,7 +13,7 @@ output reg[63:0] m_valM;
 output reg dmemerror;
 
 
-always @(write, read, memdata, memaddr) begin
+always @(write, read, memaddr) begin
 
 	if(read && !write) begin
 		m_valM <= memory[memaddr];
@@ -93,7 +93,7 @@ always @(M_icode) begin
 end
 endmodule
 
-module STAT(dmemerror, M_stat, m_stat);
+module STAT_memlogic(dmemerror, M_stat, m_stat);
   
     input dmemerror;
     input [2:0] M_stat;

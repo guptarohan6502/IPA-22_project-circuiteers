@@ -1,6 +1,7 @@
 module WRITE_REG(clk,W_stall,m_stat,M_icode,M_valE,m_valM,M_dstE,M_dstM,W_stat,W_icode,W_valE,W_valM,W_dstE,W_dstM);
 
 input clk;
+input W_stall;
 input [2:0]m_stat;
 input [3:0]M_icode; 
 input [63:0]m_valM; 
