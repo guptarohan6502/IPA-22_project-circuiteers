@@ -1,4 +1,4 @@
-module instruction_memory(clk,f_pc,imem_error,Byte0,Byte19);
+module instruction_memory(clk, f_pc, imem_error, Byte0, Byte19);
 
 input clk;
 input[63:0] f_pc;

@@ -1,4 +1,4 @@
-module FETCH_REG(clk,predict_pc, F_pred_PC);
+module FETCH_REG(clk, predict_pc, F_pred_PC);
 
 input clk;
 input [63:0] predict_pc;

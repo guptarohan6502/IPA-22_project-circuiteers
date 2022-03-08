@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 
-module registerfile(clk,dstE,dstM,srcA,srcB,valE,valM,valA,valB);
+module registerfile(clk, dstE, dstM, srcA, srcB, valE, valM, valA, valB);
 
 input [3:0]W_dstE;
 input [3:0]W_dstM;
@@ -83,7 +83,7 @@ end
 
 endmodule
 
-module WRITE_STAT(W_stat,stat);
+module WRITE_STAT(W_stat, stat);
 
 input [2:0] W_stat;
 output reg[2:0] stat;
@@ -189,7 +189,7 @@ endmodule
 
 
 
-module d_srcA_logic(D_icode,D_rA,d_srcA);
+module d_srcA_logic(D_icode, D_rA, d_srcA);
 
 input[3:0]D_icode;
 input[3:0]D_rA;
@@ -219,7 +219,7 @@ end
 endmodule
 
 
-module d_srcB_logic(D_icode,D_rB,d_srcB);
+module d_srcB_logic(D_icode, D_rB, d_srcB);
 
 
 input[3:0]D_icode;
@@ -250,7 +250,7 @@ end
 endmodule
 
 
-module dstE_logic(D_icode,D_ifun,D_rB,d_dstE);
+module dstE_logic(D_icode, D_ifun, D_rB, d_dstE);
 
 
 input[3:0]D_icode;
@@ -277,7 +277,7 @@ end
 
 endmodule
 
-module dstM_logic(D_icode,D_rA,d_dstM);
+module dstM_logic(D_icode, D_rA, d_dstM);
 
 
 input[3:0]D_icode;
