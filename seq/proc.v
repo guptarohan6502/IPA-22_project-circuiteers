@@ -74,7 +74,7 @@ PC_INCREMENT PC_i(.pc(pc), .need_regids(need_regids), .need_valC(need_valC), .va
 INSTR_VALID i_valid(.icode(icode), .instr_valid(instr_valid));
 Need_REGIDS nreg(.icode(icode), .need_regids(need_regids));
 Need_VALC n_valC(.icode(icode), .need_valC(need_valC));
-instruction_memory InstMem(.clk(clk),.pc(pc),.imem_error(imem_error),.Byte0(Byte0),.Byte19(Byte19));
+instruction_memory InstMem(.clk(clk), .pc(pc), .imem_error(imem_error), .Byte0(Byte0), .Byte19(Byte19));
 
 // decode 
 registerfile reg_f(.clk(clk), .dstE(dstE), .dstM(dstM), .srcA(srcA) , .srcB(srcB) , .valA(valA) , .valB(valB) , .valM(valM), .valE(valE));
@@ -106,7 +106,7 @@ begin
 
     $dumpfile("proc.vcd");
     $dumpvars(0, proc);
-    // $readmemh("rom.mem", instr_mem);
+    // $readmemh("rom.mem", instr_mem); // this is defined already //
 
 end
 
