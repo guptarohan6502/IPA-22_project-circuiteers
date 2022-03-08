@@ -1,18 +1,4 @@
 
-`include "Alu/alu.v"
-`include "And/and_1bit.v"
-`include "And/and_64bit.v"
-`include "Xor/xor_1bit.v"
-`include "Xor/xor_64bit.v"
-`include "Or/or_1bit.v"
-
-`include "Add/add_1bit.v"
-`include "Add/add_64bit.v"
-
-`include "Sub/not_1bit.v"
-`include "Sub/not_64bit.v"
-`include "Sub/sub_64bit.v"
-
 
 module alu_block(aluA, aluB, alufun, valE, cf);
 
@@ -78,7 +64,7 @@ always @(icode, valC, valA) begin
 	4'h2,4'h6: 
 		aluA <= valA;
 	4'h5,4'h4,4'h3:
-		aluA <= valA;
+		aluA <= valC;
 	4'h8,4'hA:
 		aluA <= 64'd8;
 	4'h9,4'hB:
