@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
 
 
-module registerfile(clk,dstE,dstM,srcA,srcB,valE,valM,valA,valB);
+module registerfile(clk, dstE, dstM, srcA, srcB, valE, valM, valA, valB);
 
-input [3:0]dstE;
-input [3:0]dstM;
-input [3:0]srcA;
-input [3:0]srcB;
+input [3:0] dstE;
+input [3:0] dstM;
+input [3:0] srcA;
+input [3:0] srcB;
 input clk;
 input [63:0] valE;
 input [63:0] valM;

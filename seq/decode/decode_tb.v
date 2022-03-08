@@ -18,16 +18,11 @@ module decode_test;
     reg [3:0] ifun;
     reg clk;
 
-    
-
     registerfile reg_f(.clk(clk),.dstE(dstE), .dstM(dstM), .srcA(srcA) , .srcB(srcB) , .valA(valA) , .valB(valB) , .valM(valM), .valE(valE));
     srcA_logic sA_l(.icode(icode),.rA(rA),.srcA(srcA));
     srcB_logic sB_l(.icode(icode),.rB(rB),.srcB(srcB));
     dstE_logic dE_l(.icode(icode),.rB(rB),.cnd(cnd),.ifun(ifun),.dstE(dstE));
     dstM_logic dM_l(.icode(icode),.rA(rA),.dstM(dstM));
-
-   
-
     
     initial begin
     clk <= 1'b0;
@@ -54,8 +49,6 @@ module decode_test;
         #20;
 
         // moved 64'd300 to register rax;
-
-
         icode <= 4'h6;
         ifun  <= 4'h2;
         rA <= 4'h3;

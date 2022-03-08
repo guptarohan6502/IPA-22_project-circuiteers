@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module RAM(memaddr,memdata,read,write,valM,dmemerror);
+module RAM(memaddr, memdata, read, write, valM, dmemerror);
 
 input[63:0] memaddr;
 input[63:0] memdata;
@@ -13,7 +13,7 @@ output reg[63:0] valM;
 output reg dmemerror;
 
 
-always @(write,read,memdata,memaddr) begin
+always @(write, read, memdata, memaddr) begin
 
 	if(read && !write) begin
 		valM <= memory[memaddr];
@@ -38,7 +38,7 @@ end
 
 endmodule
 
-module MEM_addr(icode,valE,valA,memaddr);
+module MEM_addr(icode, valE, valA, memaddr);
 
 input[3:0] icode;
 input [63:0] valE;
@@ -46,7 +46,7 @@ input[63:0] valA;
 
 output reg[63:0] memaddr;
 
-always @(icode,valE,valA) begin
+always @(icode, valE, valA) begin
 	
 
 	case (icode)
@@ -68,7 +68,7 @@ input[63:0] valP;
 
 output reg[63:0] memdata;
 
-always @(icode,valA,valP) begin
+always @(icode, valA, valP) begin
 	
 	case (icode)
 		4'h4, 4'hA:
@@ -81,7 +81,7 @@ end
 
 endmodule
 
-module MEM_read (icode,read);
+module MEM_read (icode, read);
 
 input [3:0] icode;
 output reg read;
@@ -97,7 +97,7 @@ always @(icode) begin
 end
 endmodule
 
-module MEM_write (icode,write);
+module MEM_write (icode, write);
 
 input [3:0] icode;
 output reg write;
@@ -114,7 +114,7 @@ always @(icode) begin
 end
 endmodule
 
-module STAT(icode,instr_valid,imem_error,dmemerror,stat);
+module STAT(icode, instr_valid, imem_error, dmemerror, stat);
     input [3:0] icode;
     input imem_error;
     input instr_valid;

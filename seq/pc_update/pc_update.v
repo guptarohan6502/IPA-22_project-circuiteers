@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module pc_update(clk,cnd, pc, icode, valC, valM, valP, pc);
+module pc_update(clk, cnd, pc, icode, valC, valM, valP, newpc);
 
 input clk, cnd;
 input [63:0] valC; 
@@ -9,7 +9,7 @@ input [63:0] valP;
 input [63:0] pc;
 input [3:0] icode;
 
-output reg [63:0] pc;
+output reg [63:0] newpc;
 
 always@(posedge(clk)) begin
     
@@ -18,25 +18,25 @@ always@(posedge(clk)) begin
     begin
         if(cnd == 1'b1)
         begin
-            pc <= valC;
+            newpc <= valC;
         end
         else 
-            pc <= valP;
+            newpc <= valP;
         end
     end
 
     else if (icode == 4'b1000) // icode = 8; for call
     begin 
-        pc <= valC;
+        newpc <= valC;
     end
 
     else if (icode == 4'b1001) // icode = 9; for ret 
     begin
-        pc <= valM;
+        newpc <= valM;
     end
     else
     begin
-        pc<= valP;
+        newpc<= valP;
     end
 
 end
