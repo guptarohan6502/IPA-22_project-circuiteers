@@ -213,7 +213,7 @@ module Processor;
 
   always@(*)
   begin
-    pc = newpc; // Updated PC?
+    pc = predict_pc; // Updated PC?
   end
 
   always@(*)

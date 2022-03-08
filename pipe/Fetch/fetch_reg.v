@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-module FETCH_REG(clk, predict_pc, F_pred_PC);
-=======
 module FETCH_REG(clk,F_stall,predict_pc, F_pred_PC);
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 
 input clk;
 input F_stall;

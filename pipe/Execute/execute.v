@@ -199,11 +199,7 @@ end
 endmodule
 
 
-<<<<<<< HEAD
-module CND(ifun, outf, cnd);
-=======
 module CND(E_ifun,outf,e_cnd);
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
     
     input[3:0] E_ifun;
     input[2:0] outf;
