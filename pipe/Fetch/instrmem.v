@@ -83,10 +83,6 @@ instr_mem[153] = 8'b00000000; //
 
 end
 
-
-
-
-
 always @(f_pc)) begin
 
 	if(pc > 64'd2047) begin
@@ -108,10 +104,7 @@ always @(f_pc)) begin
 		Byte19[7:0] <=instr_mem[f_pc+9];
 		
 	end
-
-
-	
+		
 end
-
 
 endmodule

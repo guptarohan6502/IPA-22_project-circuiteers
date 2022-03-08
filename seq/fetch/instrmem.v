@@ -1,4 +1,4 @@
-module instruction_memory(clk,pc,imem_error,Byte0,Byte19);
+module instruction_memory(clk, pc, imem_error, Byte0, Byte19);
 
 input clk;
 input[63:0] pc;
@@ -45,6 +45,7 @@ instr_mem[26] <= 8'b00000000;
 instr_mem[27] <= 8'b00000000;
 instr_mem[28] <= 8'b00000000;
 instr_mem[29] <= 8'b00000000;
+
 //call
 instr_mem[30] <= 8'b10000000; //icode ifun: 8 0 
 instr_mem[31] <= 8'b10010000; 
@@ -58,7 +59,6 @@ instr_mem[38] <= 8'b00000000;
 
 //halt
 instr_mem[29] <= 8'b00000000; // 00
-
 
 // irmovq $8 %r8
 instr_mem[112] <= 8'b00110000; //icode ifun
@@ -83,6 +83,7 @@ instr_mem[128] <= 8'b00000000;
 instr_mem[129] <= 8'b00000000;
 instr_mem[130] <= 8'b00000000;
 instr_mem[131] <= 8'b00000000;
+
 // xorq %rax % rax  %rax =0
 instr_mem[132] <= 8'b01100011; //icode ifun
 instr_mem[133] <= 8'b00000000; //reg
@@ -90,6 +91,7 @@ instr_mem[133] <= 8'b00000000; //reg
 // andq %rsi %rsi -- set CC %rsi =6
 instr_mem[134] <= 8'b01100010; //icode ifun
 instr_mem[135] <= 8'b01100110; //reg
+
 // jmp test- some memory address
 instr_mem[136] <= 8'b01110000; //icode ifun
 instr_mem[137] <= 8'b01100110; //reg
@@ -121,8 +123,6 @@ instr_mem[155] <= 8'b00000000; //
 //ret
 instr_mem[156] <= 8'b10010000; // 9 0 
 
-
-
 end
 
 
@@ -147,11 +147,7 @@ always @(pc) begin
 		Byte19[71:64] <= instr_mem[pc+9];
 
 		
-	end
-
-
-	
+	end	
 end
-
 
 endmodule
