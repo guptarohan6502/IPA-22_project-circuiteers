@@ -10,6 +10,10 @@ Testbench of everyone is left
 into it later
 
 
+in pipe execute i manipulat set cc conditon
+isteam of!m since state changes only during normal operation
+i am putting normal operatin thing.
+
 Doubts:
 2. Why write back stage depends on clock
 1. How to implement halt instruction. -stop updating pc

@@ -64,21 +64,42 @@ wire [2:0] cf_xor;
 			
 endmodule
 
-module ALU_A(icode,valC,valA,aluA);
 
-input[3:0] icode;
-input[63:0] valC;
-input[63:0] valA;
+module EXE_DST_E_LOGIC (E_icode,e_cnd,e_dstE);
+
+input[3:0] E_icode;
+input e_cnd;
+output reg [3:0] e_dstE;
+
+parameter rnone = 4'hF ;
+
+always @(*) begin
+    case (E_icode)
+        4'h2:begin
+            e_dstE = e_cnd ?  E_dstE:rnone; 
+        end
+
+        default: e_dstE <= E_dstE;
+    endcase
+    
+end
+endmodule
+
+module ALU_A(E_icode,E_valC,E_valA,aluA);
+
+input[3:0] E_icode;
+input[63:0] E_valC;
+input[63:0] E_valA;
 
 output reg[63:0] aluA;
 
-always @(icode,valC,valA) begin
+always @(E_icode,E_valC,E_valA) begin
 	
-	case (icode)
+	case (E_icode)
 	4'h2,4'h6: 
-		aluA <= valA;
+		aluA <= E_valA;
 	4'h5,4'h4,4'h3:
-		aluA <= valA;
+		aluA <= E_valC;
 	4'h8,4'hA:
 		aluA <= 64'd8;
 	4'h9,4'hB:
@@ -89,18 +110,18 @@ end
 endmodule
 
 
-module ALU_B(icode,valB,aluB);
+module ALU_B(E_icode,E_valB,aluB);
 
-input[3:0] icode;
-input[63:0] valB;
+input[3:0] E_icode;
+input[63:0] E_valB;
 
 output reg[63:0] aluB;
 
-always @(icode,valB) begin
+always @(E_icode,E_valB) begin
 	
-	case (icode)
+	case (E_icode)
 	4'h4,4'h5,4'h6, 4'h8,4'h9, 4'hA, 4'hB: 
-		aluB <= valB;
+		aluB <= E_valB;
 	4'h3,4'h4:
 		aluB <= 64'b0;
 	endcase
@@ -110,19 +131,19 @@ end
 endmodule
 
 
-module ALU_fun(icode,ifun,alufun);
+module ALU_fun(E_icode,E_ifun,alufun);
 
-input[3:0] icode;
-input[3:0] ifun;
+input[3:0] E_icode;
+input[3:0] E_ifun;
 
 output reg[1:0] alufun;
 
-always @(icode) begin
+always @(E_icode) begin
 
-	case (icode)
+	case (E_icode)
 	4'h6: begin
-		alufun[1] = ifun[1];
-		alufun[0] = ifun[0];
+		alufun[1] = E_ifun[1];
+		alufun[0] = E_ifun[0];
 	end
 		default:alufun <= 2'b00;
 	endcase
@@ -131,78 +152,94 @@ end
 endmodule
 
 
-module set_CC(icode,cf,outf);
+module set_CC(E_icode,cf,m_stat,W_stat,outf);
 
 input [3:0] icode;
 input [2:0]cf;
+input [2:0] m_stat,W_stat;
 output reg[2:0] outf;
 
-always @ (icode,cf)
+
+parameter SBUB = 3'h0;
+parameter SAOK = 3'h1;
+parameter SHLT = 3'h2;
+parameter SADR = 3'h3;
+parameter SINS = 3'h4;
+
+always @ (E_icode,cf)
 begin
-if( icode == 4'h6)
-	outf <= cf;  
+if(m_stat != SHLT || m_stat== SADR || m_stat != SINS) begin
+    if(W_stat != SHLT || W_stat== SADR || W_stat != SINS) begin
+        case (E_icode)
+            4'h6:
+                outf <= cf;    
+        endcase
+    end
+end
+        
+
 end
 
 endmodule
 
 
-module CND(ifun,outf,cnd);
+module CND(E_ifun,outf,e_cnd);
     
-    input[3:0] ifun;
+    input[3:0] E_ifun;
     input[2:0] outf;
-    output reg cnd;
+    output reg e_cnd;
 
-    always @(ifun,outf)
+    always @(E_ifun,outf)
     begin
-        case(ifun)
-        4'h0: cnd <= 1'b1;
+        case(E_ifun)
+        4'h0: e_cnd <= 1'b1;
 
         4'h1:
         begin
             if((outf[1]^outf[0])|outf[2]) 
-            cnd <= 1'b1;
+            e_cnd <= 1'b1;
             else
-            cnd <= 1'b0;
+            e_cnd <= 1'b0;
         end
 
         4'h2:
         begin
             if(outf[1]^outf[0]) 
-            cnd <= 1'b1;
+            e_cnd <= 1'b1;
             else
-            cnd <= 1'b0;
+            e_cnd <= 1'b0;
         end
         
         4'h3:
         begin
             if(outf[2]) 
-            cnd <= 1'b1;
+            e_cnd <= 1'b1;
             else
-            cnd <= 1'b0;
+            e_cnd <= 1'b0;
         end 
         
         4'h4:
         begin
             if(~outf[2]) 
-            cnd <= 1'b1;
+            e_cnd <= 1'b1;
             else
-            cnd <= 1'b0;
+            e_cnd <= 1'b0;
         end
         
         4'h5:
         begin
             if(~(outf[1]^outf[0])) 
-            cnd <= 1'b1;
+            e_cnd <= 1'b1;
             else
-            cnd <= 1'b0;
+            e_cnd <= 1'b0;
         end
         
         4'h6:
         begin
             if(~(outf[1]^outf[0]) & ~outf[2]) 
-            cnd <= 1'b1;
+            e_cnd <= 1'b1;
             else
-            cnd <= 1'b0;
+            e_cnd <= 1'b0;
         end
         endcase
         
