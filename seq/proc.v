@@ -79,11 +79,7 @@ PC_INCREMENT PC_i(.pc(pc), .icode(icode), .need_regids(need_regids), .need_valC(
 INSTR_VALID i_valid(.icode(icode), .instr_valid(instr_valid));
 Need_REGIDS nreg(.icode(icode), .need_regids(need_regids));
 Need_VALC n_valC(.icode(icode), .need_valC(need_valC));
-<<<<<<< Updated upstream
 instruction_memory InstMem(.clk(clk), .pc(pc), .imem_error(imem_error), .Byte0(Byte0), .Byte19(Byte19));
-=======
-instruction_memory InstMem(.clk(clk),.pc(pc),.imem_error(imem_error),.Byte0(Byte0),.Byte19(Byte19));
->>>>>>> Stashed changes
 
 // decode 
 registerfile reg_f(.clk(clk), .dstE(dstE), .dstM(dstM), .srcA(srcA) , .srcB(srcB) , .valA(valA) , .valB(valB) , .valM(valM), .valE(valE));
@@ -134,7 +130,7 @@ always @(posedge clk)
 
     
 initial begin
-		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,newpc);
+		$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
 
 end
 

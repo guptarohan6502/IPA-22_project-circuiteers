@@ -100,7 +100,7 @@ parameter rnone = 4'hF ;
 always @(icode,rA) begin
 
 	case (icode)
-	4'h2, 4'h3, 4'h6, 4'hA:
+	4'h2, 4'h3,4'h4, 4'h6, 4'hA:
 	begin
 		srcA<= rA;
 	end
