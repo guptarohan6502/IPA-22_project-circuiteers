@@ -29,7 +29,6 @@ module Processor;
 
     reg clk;
     reg [63:0] pc;
-    reg stat[0:2];
 
     // fetch
     wire [3:0] M_icode;
@@ -45,7 +44,6 @@ module Processor;
     wire imem_error;
     wire [7:0] Byte0;
     wire [71:0] Byte19;
-    wire [7:0] instr_mem[2047:0];
 
     // execute, execute register
     wire [63:0] aluA;

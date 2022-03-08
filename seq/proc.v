@@ -27,7 +27,6 @@ module proc;
 
 reg clk; 
 reg [63:0] pc;
-reg halt;
 
 // fetch, intruction memory
 wire [3:0] icode;
