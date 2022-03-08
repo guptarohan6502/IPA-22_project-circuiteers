@@ -120,8 +120,7 @@ module Processor;
 	wire [3:0] W_dstE;
 	wire [63:0] e_valE;
 	wire [63:0] m_valM;
-	wire [63:0] M_valE;
- 
+
     wire [63:0] d_rvalB;
 	wire [3:0] d_srcB;
 	wire [63:0] W_valM;
@@ -144,6 +143,21 @@ module Processor;
     wire [2:0] M_stat;
     wire [3:0] M_icode; 
     wire M_cnd;
+
+    wire [63:0] memaddr;
+    wire [63:0] memdata;
+    wire read;
+    wire write;
+    wire [63:0] memory[8191:0]; 
+    wire dmemerror;
+    wire [63:0] valM;
+    wire [63:0] M_valA;
+
+    wire [3:0] icode;
+    wire  [63:0] valA;
+    wire [63:0] valP;
+
+
 
     // pipeline control 
     wire F_stall;
@@ -195,15 +209,24 @@ module Processor;
     MEMORY_REG mem_reg(.clk(clk), .E_stat(E_stat), .E_icode(E_icode), .e_cnd(e_cnd), e_valE(e_valE),
         .E_valA(E_valA), .e_dstE(e_dstE), .E_dstM(E_dstM),
         .M_stat(M_stat), .M_icode(M_icode), .M_cnd(M_cnd), .M_valE(M_valE), .M_valA(M_valA), .M_dstE(M_dstE), .M_dstM(M_dstM));
+    RAM ram(.memaddr(memaddr), .memdata(memdata), .read(read), .write(write), .valM(valM), .dmemerror(dmemerror));
+    MEM_addr m_addr(.M_icode(M_icode), .M_valE(M_valE), .M_valA(M_valA), .memaddr(memaddr));
+    MEM_data m_data(.icode(icode), .valA(valA), .valP(valP), .memdata(memdata));
+    MEM_read m_read(.M_icode(M_icode), .read(read));
+    MEM_write m_write(.M_icode(M_icode), .write(write));
+    STAT mem_stat(.dmemerror(dmemerror), .M_stat(M_stat), .m_stat(m_stat));
+  
 
     // pipeline control 
-    PIPE_CONTROL_LOGIC pipe_ctrl(.clk(clk), );
+    PIPE_CONTROL_LOGIC pipe_ctrl(.clk(clk), .D_icode(D_icode),
+                .d_srcA(d_srcA), .d_srcB(d_srcB), .E_icode(E_icode), .E_dstM(E_dstM), .e_Cnd(e_Cnd), .M_icode(M_icode), .m_stat(m_stat), .W_stat(W_stat),
+                .F_stall(F_stall), .D_stall(D_stall), .D_bubble(D_bubble), .E_bubble(E_bubble), .M_bubble(M_bubble), .W_stall(W_stall));
 
     always #5 clk=~clk;
 
   initial begin
-    $dumpfile("proc.vcd");
-    $dumpvars(0, proc);
+    $dumpfile("Processor.vcd");
+    $dumpvars(0, Processor);
     stat[0] = 1;
     stat[1] = 0;
     stat[2] = 0;
@@ -213,7 +236,7 @@ module Processor;
 
   always@(*)
   begin
-    pc = predict_pc; // Updated PC?
+    pc = predict_pc; // Updated PC
   end
 
   always@(*)
@@ -246,16 +269,8 @@ module Processor;
     end
   end
 
-<<<<<<< HEAD
-  initial 
-    //$monitor("clk=%d 0=%d 1=%d 2=%d 3=%d 4=%d zf=%d sf=%d of=%d",clk,reg_mem0,reg_mem1,reg_mem2,reg_mem3,reg_mem4,zf,sf,of);
-    // $monitor("clk=%d halt=%d 0=%d 1=%d 2=%d 3=%d 4=%d",clk,stat[2],reg_mem0,reg_mem1,reg_mem2,reg_mem3,reg_mem4);
-		// $monitor("clk=%d icode=%b ifun=%b rA=%b rB=%b valA=%d valB=%d valC=%d valE=%d valM=%d insval=%d memerr=%d cnd=%d halt=%d 0=%d 1=%d 2=%d 3=%d 4=%d 5=%d 6=%d 7=%d 8=%d 9=%d 10=%d 11=%d 12=%d 13=%d 14=%d datamem=%d\n",clk,icode,ifun,rA,rB,valA,valB,valC,valE,valM,instr_valid,imem_error,cnd,stat[2],reg_mem0,reg_mem1,reg_mem2,reg_mem3,reg_mem4,reg_mem5,reg_mem6,reg_mem7,reg_mem8,reg_mem9,reg_mem10,reg_mem11,reg_mem12,reg_mem13,reg_mem14,datamem);
-		$monitor("clk=%d f=%d d=%d e=%d m=%d wb=%d",clk,f_icode,d_icode,e_icode,m_icode,w_icode);
-=======
 
 
 
 
->>>>>>> 4fee24f8a7d8700132833b62b89fa82ea028af55
 endmodule

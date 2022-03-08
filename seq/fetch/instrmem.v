@@ -47,10 +47,7 @@ instr_mem[26] <= 8'b00000000;
 instr_mem[27] <= 8'b00000000;
 instr_mem[28] <= 8'b00000000;
 instr_mem[29] <= 8'b00000000;
-<<<<<<< HEAD
-=======
 instr_mem[30] <= 8'b00000000;
->>>>>>> fdd06d59ba1912623b654bed38c02b6d899672cf
 
 //call
 instr_mem[31] <= 8'b10000000; //icode ifun: 8 0 

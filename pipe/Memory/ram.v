@@ -114,7 +114,7 @@ always @(M_icode) begin
 end
 endmodule
 
-module STAT(dmemerror,M_stat,m_stat);
+module STAT(dmemerror, M_stat, m_stat);
   
     input dmemerror;
     input [2:0] M_stat;
