@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+
 module ram_test;
 
     reg [3:0] icode;
