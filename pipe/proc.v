@@ -255,13 +255,13 @@ initial begin
 
     //$monitor("clk=%b,F_predPC=%d,F_stall=%b,\n",clk,F_pred_pc,F_stall);
 //Fetchstage 
-$monitor("clk=%b,F_PC=%d,f_stat=%b,f_icode=%h,f_ifun=%h,f_rA=%h,f_rB=%h,f_valC=%d,f_valP=%d,\n",clk,f_pc,f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP);
+//$monitor("clk=%b,F_PC=%d,f_stat=%b,f_icode=%h,f_ifun=%h,f_rA=%h,f_rB=%h,f_valC=%d,f_valP=%d,\n",clk,f_pc,f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP);
 //Decode Reg 
 //$monitor("clk=%b,F_PC=%d,D_stat=%b,D_icode,D_ifun=%h,D_rA=%h,D_rB=%h,D_valC=%d,D_valP=%d,D_stall=%d,D_bubble=%b,\n",clk,f_pc,D_stat,D_icode,D_ifun,D_rA,D_rB,D_valC,D_valP,D_stall,D_bubble);
 // Execute stage REg   /
 //$monitor("clk=%b,F_PC=%d,E_icode1=%h,E_stat=%b,E_ifun=%h,E_valC=%d,E_valA=%d,E_valB=%d,E_dstE=%h,E_dstM=%h,E_srcA=%h,E_srcB=%h,E_bubble=%b\n",clk,f_pc,E_icode,E_stat,E_ifun,E_valC,E_valA,E_valB,E_dstE,E_dstM,E_srcA,E_srcB,E_bubble);
 // Memory stage Reg  
-// $monitor("clk=%b,F_PC=%d,M_stat=%b,M_icode=%h,M_Cnd=%b,M_valE=%d,M_valA=%d,M_dstE=%h,M_dstM=%h,M_bubble=%b,\n",clk,f_pc,M_stat,M_icode,M_cnd,M_valE,M_valA,M_dstE,M_dstM,M_bubble);
+ $monitor("clk=%b,F_PC=%d,M_stat=%b,M_icode=%h,M_Cnd=%b,M_valE=%d,M_valA=%d,M_dstE=%h,M_dstM=%h,M_bubble=%b,\n",clk,f_pc,M_stat,M_icode,M_cnd,M_valE,M_valA,M_dstE,M_dstM,M_bubble);
 //Writeback stage Reg   
 //$monitor("clk=%b,F_PC=%d,W_stat=%b,W_icode=%h,W_valE=%d,W_valM=%d,W_dstE=%h,W_dstM=%h,W_stall=%b \n",clk,f_pc,W_stat,W_icode,W_valE,W_valM,W_dstE,W_dstM,W_stall);
 
