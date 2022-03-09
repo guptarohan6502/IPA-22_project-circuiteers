@@ -57,7 +57,6 @@ instr_mem[32] <= 8'b00000000;
 instr_mem[33] <= 8'b00000000;
 instr_mem[34] <= 8'b00000000; // 0 0 
 
-
 //rmmovq %r12 %(rdi)
 instr_mem[35] <= 8'b01000000; //icode ifun 3 0
 instr_mem[36] <= 8'b11000111; //reg 
@@ -69,7 +68,6 @@ instr_mem[41] <= 8'b00000000;
 instr_mem[42] <= 8'b00000000;
 instr_mem[43] <= 8'b00000000;
 instr_mem[44] <= 8'b00000000;
-
 
 //mrmovq %r13 %(rdi) 
 instr_mem[45] <= 8'b01010000; //icode ifun 5 0
@@ -83,12 +81,9 @@ instr_mem[52] <= 8'b00000000;
 instr_mem[53] <= 8'b00000000;
 instr_mem[54] <= 8'b00000000;
 
-
 //add  %1r2   %r13
 instr_mem[55] <= 8'b01100000; //icode ifun 6 0
 instr_mem[56] <= 8'b1101101; //reg 
-
-
 
 //call
 instr_mem[57] <= 8'b10000000; //icode ifun: 8 0 

@@ -1,5 +1,5 @@
 $date
-	Thu Mar 10 02:29:25 2022
+	Thu Mar 10 03:50:18 2022
 $end
 $version
 	Icarus Verilog
@@ -31170,4 +31170,8 @@ b1000010 C
 b1000010 P
 1A
 #650000
+0A
+#660000
+1A
+#670000
 0A

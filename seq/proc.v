@@ -117,7 +117,6 @@ wire [63:0] addout;
 wire [2:0] addflag;
 add_64bit chec_k(.a(adda),.b(addb),.out(addout),.cf_add(addflag)); */
 
-
 initial
 begin
 
@@ -130,7 +129,6 @@ begin
 
 end
 
-  
 always @(posedge clk)
       begin    
         pc <= newpc;
@@ -138,7 +136,7 @@ always @(posedge clk)
 
     always #10 clk <= ~clk;
     initial
-        #650 $finish;
+        #670 $finish;
 
     
 initial begin
