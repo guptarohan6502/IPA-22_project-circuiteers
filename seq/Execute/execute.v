@@ -66,9 +66,9 @@ always @(icode, valC, valA) begin
 	4'h5,4'h4,4'h3:
 		aluA <= valC;
 	4'h8,4'hA:
-		aluA <= 64'd8;
-	4'h9,4'hB:
 		aluA <= -64'd8;
+	4'h9,4'hB:
+		aluA <= 64'd8;
 	endcase
 end
 
