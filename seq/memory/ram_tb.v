@@ -21,7 +21,6 @@ module ram_test;
     integer k;
     parameter base_addr = 64'hFF;
 
-    
     initial begin
     $dumpfile("ram_test.vcd");
     $dumpvars(0,ram_test);
