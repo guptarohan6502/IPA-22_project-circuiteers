@@ -1,5 +1,18 @@
 `timescale 1ns / 1ps
 
+`include "Add/add_1bit.v"
+`include "Add/add_64bit.v"
+`include "And/and_1bit.v"
+`include "And/and_64bit.v"
+`include "Or/or_1bit.v"
+`include "Sub/add_1bit.v"
+`include "Sub/add_64bit.v"
+`include "Sub/not_1bit.v"
+`include "Sub/not_64bit.v"
+`include "Sub/sub_64bit.v"
+`include "Xor/xor_1bit.v"
+`include "Xor/xor_64bit.v"
+
 module execute_test;
 
     integer k;
