@@ -51,7 +51,7 @@ instr_mem[30] <= 8'b00000000; // 0 0
 //rmmovq %r12 %(rdi)
 instr_mem[31] <= 8'b01000000; //icode ifun 3 0
 instr_mem[32] <= 8'b11000111; //reg 
-instr_mem[33] <= 8'b00000000; // 10 : 0 A
+instr_mem[33] <= 8'b00000000; // 10 :
 instr_mem[34] <= 8'b00000000;
 instr_mem[35] <= 8'b00000000;
 instr_mem[36] <= 8'b00000000;
