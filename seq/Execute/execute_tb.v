@@ -5,8 +5,6 @@
 `include "And/and_1bit.v"
 `include "And/and_64bit.v"
 `include "Or/or_1bit.v"
-`include "Sub/add_1bit.v"
-`include "Sub/add_64bit.v"
 `include "Sub/not_1bit.v"
 `include "Sub/not_64bit.v"
 `include "Sub/sub_64bit.v"
