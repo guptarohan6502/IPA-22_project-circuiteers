@@ -138,13 +138,14 @@ always @(posedge clk)
 
     always #10 clk <= ~clk;
     initial
-        #600 $finish;
+        #650 $finish;
 
     
 initial begin
   //$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, aluA = %d, aluB = %d, valA=%d, valB=%d,valE=%d, valM=%d, alufun =%d,read = %b,write = %b,memaddr=%d,memdata = %d,newpc = %d\n", clk, pc, icode, ifun, rA, rB, valC, valP, aluA, aluB, valA, valB, valE, valM,alufun,read,write,memaddr,memdata,newpc);
   //$monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b",clk, pc, icode, ifun, rA, rB,);
-    $monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, aluA = %d, aluB = %d, valA=%d, valB=%d,valE=%d, outf = %b,cnd =%b\n", clk, pc, icode, ifun, rA, rB, valC, valP, aluA, aluB, valA, valB, valE,outf,cnd );
+    $monitor("clk=%d, pc=%d, icode=%d, ifun=%d, rA=%b, rB=%b, valC=%d, valP=%d, aluA = %d, aluB = %d, alufun = %b ,valA=%d, valB=%d,valE=%d, outf = %b,cf =%b,cnd =%b\n", 
+    clk, pc, icode, ifun, rA, rB, valC, valP, aluA, aluB,alufun,valA, valB, valE,outf,cf,cnd );
 
 end
 

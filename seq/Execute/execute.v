@@ -125,8 +125,11 @@ output reg[2:0] outf;
 
 always @ (icode,cf)
 begin
-if( icode == 4'h6)
-	outf <= cf;  
+    case (icode)
+        4'h6: 
+            outf <= cf;
+        default: outf <= outf;
+    endcase
 end
 
 endmodule
