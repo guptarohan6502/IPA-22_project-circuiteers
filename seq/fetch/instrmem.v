@@ -149,6 +149,7 @@ instr_mem[144] <= 8'b00000000;
 
 
 // loop:
+//subq %r9 %r8
 instr_mem[145] <= 8'b01100001; //icode ifun
 instr_mem[146] <= 8'b10011000; //reg
 
