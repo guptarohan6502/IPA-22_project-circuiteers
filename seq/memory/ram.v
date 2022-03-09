@@ -23,7 +23,7 @@ always @(write, read, memdata, memaddr) begin
 		memory[memaddr] <= memdata;
 	end
 
-	if (memaddr >= 64'd258) begin
+	if (memaddr >= 64'd512) begin
 		dmemerror <= 1'b1;
 	end
 	else begin

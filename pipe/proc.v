@@ -226,7 +226,7 @@ always @(posedge clk)
 
     always #5 clk <= ~clk;
     initial
-        #400 $finish;
+        #100 $finish;
 
     
 initial begin
@@ -241,8 +241,8 @@ initial begin
         // $monitor("clk=%d,F_pc = %d,E_icode = %d,e_valE = %d, aluA = %d,aluB = %d,alufun = %d, E_valC = %d,E_valA = %d, E_valB = %d,d_dstE = %b,D_rA = %b,D_rB = %b,E_dstE = %b,e_dstE = %b\n",
            //clk,f_pc,E_icode,e_valE,aluA,aluB,alufun,E_valC,E_valA,E_valB,d_dstE,D_rA,D_rB,E_dstE,e_dstE);
     // Memory stage 
-       $monitor("clk =%b, write= %b,F_pc = %d,read =%b, M_icode = %d,M_cnd= %b, m_valM = %d, M_valE =%d,memaddr = %d,M_valA =%d, M_dstE =%b,e_dstE = %b, M_dstM = %b",
-       clk,write,f_pc,read,M_icode,M_cnd,m_valM,M_valE,memaddr,M_valA,M_dstE,e_dstE,M_dstM);
+       //$monitor("clk =%b, write= %b,F_pc = %d,read =%b, M_icode = %d,M_cnd= %b, m_valM = %d, M_valE =%d,memaddr = %d,M_valA =%d, M_dstE =%b,e_dstE = %b, M_dstM = %b",
+       //clk,write,f_pc,read,M_icode,M_cnd,m_valM,M_valE,memaddr,M_valA,M_dstE,e_dstE,M_dstM);
     //Write back stage:
       //$monitor("clk=%d,W_stall = %b,F_pc= %d,f_valc = %d W_icode = %d,W_dstE = %b,W_dstM = %b,W_valE =%d,W_valM = %d,e_cnd = %b,M_cnd =%b",
         //clk,W_stall,F_pred_pc,f_valC,W_icode,W_dstE,W_dstM,W_valE,W_valM,e_cnd,M_cnd);
@@ -252,6 +252,15 @@ initial begin
 
         	//$monitor("clk=%d,D_icode = %d,F_stall = %b,,F_pred_pc=%d, f_pc = %d,predict_pc = %d, D_stall = %b, D_bubble %b, E_bubble = %b,M_bubble = %b,W_stall =%b,f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n",
         //clk, D_icode,F_stall,F_pred_pc,f_pc,predict_pc,D_stall,D_bubble,E_bubble,M_bubble,W_stall,f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
+
+    $monitor("clk=%b,F_predPC=%d,F_stall=%b,\n",clk,F_pred_pc,F_stall);
+    $monitor("clk=%b,F_PC=%d,f_stat=%b,f_icode=%h,f_ifun=%h,f_rA=%h,f_rB=%h,f_valC=%d,f_valP=%d,\n",clk,f_pc,f_stat,f_icode,f_ifun,f_rA,f_rB,f_valC,f_valP);
+    $monitor("clk=%b,F_PC=%d,D_stat=%b,D_icode,D_ifun=%h,D_rA=%h,D_rB=%h,D_valC=%d,D_valP=%d,D_stall=%d,D_bubble=%b,\n",clk,f_pc,D_stat,D_icode,D_ifun,D_rA,D_rB,D_valC,D_valP,D_stall,D_bubble);
+    $monitor("clk=%b,F_PC=%d,E_icode1=%h,E_stat=%b,E_ifun=%h,E_valC=%d,E_valA=%d,E_valB=%d,E_dstE=%h,E_dstM=%h,E_srcA=%h,E_srcB=%h,E_bubble=%b\n",clk,f_pc,E_icode,E_stat,E_ifun,E_valC,E_valA,E_valB,E_dstE,E_dstM,E_srcA,E_srcB,E_bubble);
+    $monitor("clk=%b,F_PC=%d,M_stat=%b,M_icode=%h,M_Cnd=%b,M_valE=%d,M_valA=%d,M_dstE=%h,M_dstM=%h,M_bubble=%b,\n",clk,f_pc,M_stat,M_icode,M_cnd,M_valE,M_valA,M_dstE,M_dstM,M_bubble);
+    $monitor("clk=%b,F_PC=%d,W_stat=%b,W_icode=%h,W_valE=%d,W_valM=%d,W_dstE=%h,W_dstM=%h,W_stall=%b \n",clk,f_pc,W_stat,W_icode,W_valE,W_valM,W_dstE,W_dstM,W_stall);
+
+
 end
 
 endmodule
