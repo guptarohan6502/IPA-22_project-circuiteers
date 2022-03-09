@@ -88,9 +88,9 @@ always @(E_icode,E_valC,E_valA) begin
 	4'h5,4'h4,4'h3:
 		aluA <= E_valC;
 	4'h8,4'hA:
-		aluA <= 64'd8;
-	4'h9,4'hB:
 		aluA <= -64'd8;
+	4'h9,4'hB:
+		aluA <= 64'd8;
 	endcase
 end
 
@@ -109,7 +109,7 @@ always @(E_icode,E_valB) begin
 	case (E_icode)
 	4'h4,4'h5,4'h6, 4'h8,4'h9, 4'hA, 4'hB: 
 		aluB <= E_valB;
-	4'h3,4'h4:
+	4'h3,4'h2:
 		aluB <= 64'b0;
 	endcase
 end
@@ -155,14 +155,26 @@ parameter SINS = 3'h4;
 
 always @ (E_icode,cf)
 begin
-if(m_stat != SHLT || m_stat== SADR || m_stat != SINS) begin
-    if(W_stat != SHLT || W_stat== SADR || W_stat != SINS) begin
-        case (E_icode)
-            4'h6:
-                outf <= cf;    
-        endcase
-    end
-end
+
+    case (m_stat)
+        SHLT,SADR,SINS:begin
+            outf<= outf;
+        end
+
+        default: begin
+            case (W_stat)
+                SHLT,SADR,SINS:
+                    outf <=outf ;
+                default: begin
+                     case (E_icode)
+                        4'h6:
+                            outf <= cf;    
+                    endcase
+
+                end
+            endcase
+        end
+    endcase
         
 
 end

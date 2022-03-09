@@ -12,7 +12,6 @@
 `include "Memory/ram.v"
 `include "pipeline_ctrl.v"
 
-`include "Execute/Alu/alu.v"
 `include "Execute/And/and_1bit.v"
 `include "Execute/And/and_64bit.v"
 `include "Execute/Xor/xor_1bit.v"
@@ -191,7 +190,7 @@ module Processor;
     MEMORY_REG mem_reg(.clk(clk), .E_stat(E_stat), .E_icode(E_icode), .e_cnd(e_cnd), .e_valE(e_valE),
         .E_valA(E_valA), .e_dstE(e_dstE), .E_dstM(E_dstM),
         .M_stat(M_stat), .M_icode(M_icode), .M_cnd(M_cnd), .M_valE(M_valE), .M_valA(M_valA), .M_dstE(M_dstE), .M_dstM(M_dstM));
-    RAM ram(.memaddr(memaddr),.read(read), .write(write),.E_valA(E_valA),.m_valM(m_valM), .dmemerror(dmemerror));
+    RAM ram(.memaddr(memaddr),.read(read), .write(write),.M_valA(M_valA),.m_valM(m_valM), .dmemerror(dmemerror));
     MEM_addr m_addr(.M_icode(M_icode), .M_valE(M_valE), .M_valA(M_valA), .memaddr(memaddr));
     MEM_read m_read(.M_icode(M_icode), .read(read));
     MEM_write m_write(.M_icode(M_icode), .write(write));
@@ -232,22 +231,27 @@ always @(posedge clk)
     
 initial begin
 	//USE below monitor to monitor fetch values.
-    	//$monitor("clk=%d,F_stall = %b, F_pc=%d, predict_pc = %d,f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n", clk, F_stall,F_pred_pc,predict_pc ,f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
+    	//$monitor("clk=%d,F_stall = %b,,F_pred_pc=%d, f_pc = %d,predict_pc = %d, D_stall = %b, D_bubble %b, E_bubble = %b,M_bubble = %b,W_stall =%b,f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n",
+        //clk, F_stall,F_pred_pc,f_pc,predict_pc,D_stall,D_bubble,E_bubble,M_bubble,W_stall,f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
     // Pipeline control Monitor
         //$monitor("clk=%d,F_pc = %d,D_icode =%d,E_icode = %d,d_dstM = %b,E_dstM=%b,d_srcA =%b,d_srcB = %b,m_stat=%b,W_stat = %b,M_icode=%d,e_cnd = %b,F_stall = %b, D_stall = %b,W_stall = %b,D_bubble = %b,E_bubble = %b,M_bubble = %b\n", clk,F_pred_pc,D_icode,E_icode,d_dstM,E_dstM,d_srcA,d_srcB,m_stat,W_stat,M_icode,e_cnd,F_stall , D_stall, W_stall,D_bubble,E_bubble,M_bubble);
     // Decode Stage 
         //$monitor("clk=%d,F_pc = %d,D_icode = %d,D_ifun = %d, f_rA = %b,D_rA = %b, D_rB = %b, D_valC =%d ,D_valP = %d,d_srcA =%b,d_srcB = %b,d_valA = %d, d_valB = %d\n",clk,F_pred_pc,D_icode,D_ifun,f_rA,D_rA,D_rB,D_valC,D_valP,d_srcA,d_srcB,d_valA,d_valB);
     //Execute Stage
-         //$monitor("clk=%d,F_pc = %d,E_icode = %d,e_valE = %d, aluA = %d,aluB = %d, E_valC = %d,E_valA = %d, E_valB = %d,d_dstE = %b,D_rA = %b,D_rB = %b,E_dstE = %b,e_dstE = %b\n",
-           //clk,F_pred_pc,E_icode,e_valE,aluA,aluB,E_valC,E_valA,E_valB,d_dstE,D_rA,D_rB,E_dstE,e_dstE);
+        // $monitor("clk=%d,F_pc = %d,E_icode = %d,e_valE = %d, aluA = %d,aluB = %d,alufun = %d, E_valC = %d,E_valA = %d, E_valB = %d,d_dstE = %b,D_rA = %b,D_rB = %b,E_dstE = %b,e_dstE = %b\n",
+           //clk,f_pc,E_icode,e_valE,aluA,aluB,alufun,E_valC,E_valA,E_valB,d_dstE,D_rA,D_rB,E_dstE,e_dstE);
     // Memory stage 
-       //$monitor("clk =%b, M_bub = %b,F_pc = %d,E_icode = %d, M_icode = %d,M_cnd= %b, m_valM = %d, M_valE =%d,M_valA =%d, M_dstE =%b,e_dstE = %b, M_dstM = %b",
-       // clk,M_bubble,F_pred_pc,E_icode,M_icode,M_cnd,m_valM,M_valE,M_valA,M_dstE,e_dstE,M_dstM);
+       $monitor("clk =%b, write= %b,F_pc = %d,read =%b, M_icode = %d,M_cnd= %b, m_valM = %d, M_valE =%d,memaddr = %d,M_valA =%d, M_dstE =%b,e_dstE = %b, M_dstM = %b",
+       clk,write,f_pc,read,M_icode,M_cnd,m_valM,M_valE,memaddr,M_valA,M_dstE,e_dstE,M_dstM);
     //Write back stage:
-       $monitor("clk=%d,W_stall = %b,F_pc=%d, W_icode = %d,W_dstE = %b,W_dstM = %b,W_valE =%d,W_valM = %d",
-        clk,W_stall,F_pred_pc,W_icode,W_dstE,W_dstM,W_valE,W_valM);
+      //$monitor("clk=%d,W_stall = %b,F_pc= %d,f_valc = %d W_icode = %d,W_dstE = %b,W_dstM = %b,W_valE =%d,W_valM = %d,e_cnd = %b,M_cnd =%b",
+        //clk,W_stall,F_pred_pc,f_valC,W_icode,W_dstE,W_dstM,W_valE,W_valM,e_cnd,M_cnd);
 
+        //$monitor("clk=%d,E_icode = %d, e_valE = %d,outf = %b,e_cnd =%b,M_cnd= %b, M_valA = %d, W_valM = %d,f_pc = %d,pred_pc =%d, F_pc= %d,f_valc = %d,f_valP = %d,needregids = %b"
+        //,clk,E_icode,e_valE,outf,e_cnd,M_cnd,M_valA,W_valM,f_pc,predict_pc,F_pred_pc,f_valC,f_valP,need_regids);
 
+        	//$monitor("clk=%d,D_icode = %d,F_stall = %b,,F_pred_pc=%d, f_pc = %d,predict_pc = %d, D_stall = %b, D_bubble %b, E_bubble = %b,M_bubble = %b,W_stall =%b,f_icode=%d, f_ifun=%d, f_rA=%b, f_rB=%b, f_valC=%d, f_valP=%d, \n",
+        //clk, D_icode,F_stall,F_pred_pc,f_pc,predict_pc,D_stall,D_bubble,E_bubble,M_bubble,W_stall,f_icode, f_ifun, f_rA, f_rB, f_valC, f_valP);
 end
 
 endmodule

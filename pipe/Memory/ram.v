@@ -1,13 +1,13 @@
 `timescale 1ns / 1ps
 
-module RAM(memaddr, read, write,E_valA, m_valM, dmemerror);
+module RAM(memaddr, read, write,M_valA, m_valM, dmemerror);
 
 input[63:0] memaddr;
-input[63:0] E_valA;
+input[63:0] M_valA;
 input read;
 input write;
 
-reg [63:0] memory[8191:0]; 
+reg [63:0] memory[1024:0]; 
 
 output reg[63:0] m_valM;
 output reg dmemerror;
@@ -20,10 +20,10 @@ always @(write, read, memaddr) begin
 	end
 
 	if(write && !read) begin
-		memory[memaddr] <= E_valA;
+		memory[memaddr] <= M_valA;
 	end
 
-	if (memaddr >= 64'd258) begin
+	if (memaddr >= 64'd512) begin
 		dmemerror <= 1'b1;
 	end
 	else begin

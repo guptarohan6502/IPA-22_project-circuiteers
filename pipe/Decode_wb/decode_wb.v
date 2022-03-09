@@ -124,7 +124,7 @@ module d_VALA_logic(
 
 always @(*) begin
 	
-	if(D_icode == 4'h7 || D_icode == 4'h7)begin
+	if(D_icode == 4'h8 || D_icode == 4'h7)begin
 		 d_valA <=D_valP;
 	end
 	else begin

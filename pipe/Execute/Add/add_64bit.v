@@ -8,7 +8,7 @@ module add_64bit(a, b, out, cf_add);
 	output reg [2:0] cf_add;
 
 	wire [64:0]carry;
-
+	wire overflow;
 	assign carry[0] = 1'b0;
 
 	genvar i;
@@ -19,7 +19,7 @@ module add_64bit(a, b, out, cf_add);
   	end
   	endgenerate
 	
-	xor_1bit g2(cf_add[2], carry[64], carry[63]);
+	xor_1bit g2(carry[64], carry[63],overflow);
 
 
 always @(*) begin
@@ -34,6 +34,8 @@ always @(*) begin
 		cf_add[1] = 1'b1;
 	end
 	else cf_add[1] = 1'b0;	
+	cf_add[2] = overflow;
+
 end
 
 endmodule
