@@ -83,7 +83,7 @@ instr_mem[54] <= 8'b00000000;
 
 //add  %1r2   %r13
 instr_mem[55] <= 8'b01100000; //icode ifun 6 0
-instr_mem[56] <= 8'b1101101; //reg 
+instr_mem[56] <= 8'b11001101; //reg 
 
 //call
 instr_mem[57] <= 8'b10000000; //icode ifun: 8 0 

@@ -130,7 +130,6 @@ always @(*) begin
 	else begin
 		
 		case (d_srcA)
-
 		e_dstE:
 			d_valA <= e_valE;
 		M_dstM:

@@ -92,7 +92,6 @@ always @(icode) begin
         halt <= 1'b0;
     
 end
-  
 
     assign valP = halt ? pc:(need_valC ? (need_regids ? pc+10:pc+9):(need_regids ? pc+2:pc+1));
 
